@@ -10,8 +10,10 @@ export async function getUserProfile() {
     return null;
   }
 
-  // Force localhost for development
-  const API_URL = 'http://localhost:4000';
+  // Use dynamic API URL based on environment
+  const API_URL = process.env.NODE_ENV === 'development' 
+    ? 'http://localhost:4000' 
+    : 'https://starlix-back.onrender.com';
   
   console.log('[Server Action] getUserProfile - API_URL:', API_URL);
 

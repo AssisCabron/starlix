@@ -14,13 +14,16 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError(null);
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsLoading(true);
+        setError(null);
 
-    try {
-        const res = await fetch('https://starlix-back.onrender.com/api/auth/login', {
+        const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+        const API_URL = isLocal ? "http://localhost:4000" : "https://starlix-back.onrender.com";
+
+        try {
+            const res = await fetch(`${API_URL}/api/auth/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
@@ -50,8 +53,11 @@ export default function LoginPage() {
       setIsLoading(true);
       setError(null);
 
+      const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+      const API_URL = isLocal ? "http://localhost:4000" : "https://starlix-back.onrender.com";
+
       try {
-          const res = await fetch('https://starlix-back.onrender.com/api/auth/signup', {
+          const res = await fetch(`${API_URL}/api/auth/signup`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ email, password })
