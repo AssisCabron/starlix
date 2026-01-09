@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { CreditCard, QrCode, Lock, ShieldCheck } from "lucide-react";
+import { CreditCard, QrCode, Lock, ShieldCheck, Copy, CheckCircle2, RotateCw } from "lucide-react";
 
 // Plans data
 const PLANS: Record<string, { title: string; price: number }> = {
@@ -22,6 +22,10 @@ function CheckoutForm() {
 
     const [loading, setLoading] = useState(false);
     const [billingType, setBillingType] = useState<'PIX' | 'CREDIT_CARD'>('PIX');
+    const [pixData, setPixData] = useState<{ encodedImage: string, payload: string } | null>(null);
+    const [paymentId, setPaymentId] = useState<string | null>(null);
+    const [paymentStatus, setPaymentStatus] = useState<string | null>(null);
+    const [copied, setCopied] = useState(false);
 
     // Form State
     const [formData, setFormData] = useState({
@@ -38,6 +42,44 @@ function CheckoutForm() {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
+
+    const copyToClipboard = () => {
+        if (pixData?.payload) {
+            navigator.clipboard.writeText(pixData.payload);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        }
+    };
+
+    useEffect(() => {
+        let interval: NodeJS.Timeout;
+
+        if (paymentId && (paymentStatus === 'PENDING' || !paymentStatus)) {
+            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            const API_URL = isLocal ? 'http://localhost:4000' : 'https://starlix-back.onrender.com';
+
+            interval = setInterval(async () => {
+                try {
+                    const res = await fetch(`${API_URL}/api/payments/status/${paymentId}`);
+                    const data = await res.json();
+                    
+                    if (data.status === 'PAID' || data.status === 'CONFIRMED' || data.status === 'RECEIVED') {
+                        setPaymentStatus('PAID');
+                        clearInterval(interval);
+                        setTimeout(() => {
+                            router.push('/dashboard/subscription');
+                        }, 2000);
+                    }
+                } catch (err) {
+                    console.error("Polling error:", err);
+                }
+            }, 5000);
+        }
+
+        return () => {
+            if (interval) clearInterval(interval);
+        };
+    }, [paymentId, paymentStatus, router]);
 
     const handleCheckout = async () => {
         // Basic Validation
@@ -63,6 +105,13 @@ function CheckoutForm() {
         try {
             const accessToken = token.split('=')[1];
             
+            // Determine API URL
+            // Determine API URL
+            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            const API_URL = isLocal ? 'http://localhost:4000' : 'https://starlix-back.onrender.com';
+            
+            console.log("Using API URL:", API_URL);
+            
             // Format Expiry
             let creditCard = null;
             if (billingType === 'CREDIT_CARD') {
@@ -76,7 +125,7 @@ function CheckoutForm() {
                 };
             }
 
-            const res = await fetch('https://starlix-back.onrender.com/api/payments/checkout', {
+            const res = await fetch(`${API_URL}/api/payments/checkout`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -93,14 +142,28 @@ function CheckoutForm() {
             });
 
             const data = await res.json();
+            console.log("DEBUG: Raw Checkout Data:", data);
 
             if (res.ok) {
+                console.log("DEBUG: PaymentID being set:", data.paymentId);
+                setPaymentId(data.paymentId);
                 if (billingType === 'CREDIT_CARD') {
-                     alert("Payment Processed Successfully!");
-                     router.push('/dashboard/subscription');
+                    if (data.status === 'CONFIRMED' || data.status === 'RECEIVED') {
+                        setPaymentStatus('PAID');
+                        setTimeout(() => router.push('/dashboard/subscription'), 2000);
+                    } else {
+                        setPaymentStatus('PENDING');
+                    }
                 } else {
-                    // Pix - Redirect to Invoice
-                    window.location.href = data.invoiceUrl;
+                    // Pix - Set data for display
+                    if (data.pix) {
+                        setPixData(data.pix);
+                        setPaymentStatus('PENDING');
+                    } else {
+                        // If no PIX data, something is wrong with backend or Asaas communication
+                        alert("Could not generate PIX QR Code. Please try again or contact support.");
+                        console.error("Missing PIX data in response:", data);
+                    }
                 }
             } else {
                 alert("Checkout Error: " + (data.error || "Unknown error"));
@@ -209,9 +272,48 @@ function CheckoutForm() {
                             <span className="text-primary">R$ {selectedPlan.price.toFixed(2)}</span>
                         </div>
                         
-                        <Button className="w-full py-6 text-lg font-bold shadow-[0_0_20px_rgba(255,0,60,0.3)] hover:shadow-[0_0_30px_rgba(255,0,60,0.6)] transition-all" onClick={handleCheckout} disabled={loading}>
-                            {loading ? 'Processing...' : `Pay R$ ${selectedPlan.price.toFixed(2)}`}
-                        </Button>
+                        {!pixData ? (
+                            <Button className="w-full py-6 text-lg font-bold shadow-[0_0_20px_rgba(255,0,60,0.3)] hover:shadow-[0_0_30px_rgba(255,0,60,0.6)] transition-all" onClick={handleCheckout} disabled={loading}>
+                                {loading ? 'Processing...' : `Pay R$ ${selectedPlan.price.toFixed(2)}`}
+                            </Button>
+                        ) : (
+                            <div className="space-y-4 animate-in fade-in zoom-in-95 duration-300">
+                                {paymentStatus === 'PAID' ? (
+                                    <div className="flex flex-col items-center gap-4 p-6 bg-green-500/20 border border-green-500/50 rounded-xl">
+                                        <CheckCircle2 className="w-16 h-16 text-green-500 animate-bounce" />
+                                        <div className="text-center">
+                                            <h4 className="font-bold text-lg">Payment Confirmed!</h4>
+                                            <p className="text-sm text-gray-400">Redirecting to dashboard...</p>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <div className="bg-white p-3 rounded-xl mx-auto w-fit">
+                                            <img src={`data:image/png;base64,${pixData.encodedImage}`} alt="PIX QR Code" className="w-48 h-48" />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <p className="text-xs text-center text-gray-400">Copy and paste the code below:</p>
+                                            <div className="flex gap-2">
+                                                <input 
+                                                    readOnly 
+                                                    value={pixData.payload} 
+                                                    className="flex-1 bg-black/50 border border-white/20 rounded p-2 text-xs truncate"
+                                                />
+                                                <Button size="icon" variant="outline" onClick={copyToClipboard} className="shrink-0 transition-colors">
+                                                    {copied ? <CheckCircle2 className="text-green-500" /> : <Copy className="w-4 h-4" />}
+                                                </Button>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col items-center gap-2 pt-2">
+                                            <div className="flex items-center gap-2 text-xs text-primary animate-pulse">
+                                                <RotateCw className="w-3 h-3 animate-spin" />
+                                                Waiting for payment...
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        )}
 
                         <div className="mt-6 flex items-center justify-center gap-2 text-xs text-gray-500">
                             <Lock className="w-3 h-3" /> Encrypted & Secure

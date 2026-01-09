@@ -14,11 +14,13 @@ const ASAAS_API_KEY = process.env.ASAAS_API_KEY || '';
 const app = (0, express_1.default)();
 const port = process.env.PORT || 4000;
 app.use((0, cors_1.default)({
-    origin: 'http://localhost:3000', // Allow Frontend
+    origin: ['http://localhost:3000', 'https://starlix-back.onrender.com', 'https://starlix-7c7d.onrender.com'], // Allow Frontend (Local & Prod)
     credentials: true
 }));
 app.use(express_1.default.json());
 // Supabase Admin Client (For bypassing email verification)
+console.log("Supabase URL:", process.env.SUPABASE_URL ? "LOADED" : "NOT LOADED");
+console.log("Supabase Admin Key:", process.env.SUPABASE_SERVICE_ROLE_KEY ? "LOADED" : "NOT LOADED");
 const supabaseAdmin = (0, supabase_js_1.createClient)(process.env.SUPABASE_URL || '', process.env.SUPABASE_SERVICE_ROLE_KEY || '');
 // Standard Supabase Client (For normal auth/queries)
 const supabase = (0, supabase_js_1.createClient)(process.env.SUPABASE_URL || '', process.env.SUPABASE_ANON_KEY || '');
@@ -68,7 +70,7 @@ app.post('/api/auth/signup', async (req, res) => {
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-// Login Proxy
+// Login 
 app.post('/api/auth/login', async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -210,21 +212,31 @@ async function checkPendingPayments() {
     console.log("Checking pending payments...");
     try {
         // 1. Get all PENDING payments from DB
+        console.log(`[${new Date().toLocaleTimeString()}] Poller: Fetching pending payments from DB...`);
         const { data: pendingPayments, error } = await supabaseAdmin
             .from('payments')
             .select('*')
             .eq('status', 'PENDING');
-        if (error || !pendingPayments || pendingPayments.length === 0)
+        console.log(`[${new Date().toLocaleTimeString()}] Poller: DB Fetch complete. Error: ${error ? JSON.stringify(error) : 'NONE'}`);
+        if (error) {
+            console.error(`[${new Date().toLocaleTimeString()}] Poller Error:`, error);
             return;
+        }
+        if (!pendingPayments || pendingPayments.length === 0) {
+            console.log(`[${new Date().toLocaleTimeString()}] Poller: 0 pending payments.`);
+            return;
+        }
+        console.log(`[${new Date().toLocaleTimeString()}] Poller: Found ${pendingPayments.length} payments.`);
         for (const payment of pendingPayments) {
             try {
                 // 2. Check status in Asaas
+                console.log(`Checking Asaas status for ${payment.asaas_id} (Internal ID: ${payment.id})`);
                 const response = await axios_1.default.get(`${ASAAS_API_URL}/payments/${payment.asaas_id}`, {
                     headers: { access_token: ASAAS_API_KEY }
                 });
                 const asaasStatus = response.data.status;
-                // Asaas statuses: 'RECEIVED', 'CONFIRMED', 'OVERDUE', 'PENDING'
-                if (asaasStatus === 'RECEIVED' || asaasStatus === 'CONFIRMED') {
+                console.log(`Asaas status for ${payment.asaas_id}: ${asaasStatus}`);
+                if (asaasStatus === 'RECEIVED' || asaasStatus === 'CONFIRMED' || asaasStatus === 'RECEIVED_IN_CASH') {
                     console.log(`Payment confirmed for user ${payment.user_id}`);
                     // 3. Update Payment Status in DB
                     await supabaseAdmin
@@ -391,43 +403,78 @@ app.post('/api/payments/checkout', async (req, res) => {
             headers: { access_token: ASAAS_API_KEY }
         });
         // SAVE PAYMENT TO DB
-        // If it's Credit Card it might be 'CONFIRMED' already, or 'PENDING'
-        // We save whatever status returned.
         const returnedStatus = response.data.status;
-        await supabaseAdmin.from('payments').insert({
+        console.log(`DB: Attempting to save payment ${response.data.id} for user ${user.id} with status ${returnedStatus}`);
+        const { error: insertError } = await supabaseAdmin.from('payments').insert({
             user_id: user.id,
             asaas_id: response.data.id,
             amount: price,
             status: returnedStatus, // Could be PENDING or CONFIRMED
             invoice_url: response.data.invoiceUrl
         });
+        if (insertError) {
+            console.error("DB: Payment Insert Error:", insertError);
+        }
+        else {
+            console.log(`DB: Payment ${response.data.id} saved successfully.`);
+        }
         // 4. IMMEDIATE ACTIVATION CHECK (For Credit Card)
         if (returnedStatus === 'CONFIRMED' || returnedStatus === 'RECEIVED') {
-            const { key, planName } = generateLicenseKey(price);
-            // Calculate expiry based on plan
-            let expiryDate = new Date();
-            if (planName === 'Daily')
-                expiryDate.setDate(expiryDate.getDate() + 1);
-            else if (planName === 'Monthly')
-                expiryDate.setDate(expiryDate.getDate() + 30);
-            else if (planName === 'Yearly')
-                expiryDate.setDate(expiryDate.getDate() + 365);
-            else if (planName === 'Lifetime')
-                expiryDate.setFullYear(expiryDate.getFullYear() + 99);
-            await supabaseAdmin
-                .from('profiles')
-                .update({
-                plan: planName,
-                status: 'Active',
-                license_key: key,
-                expires_at: expiryDate.toISOString()
-            })
-                .eq('id', user.id);
+            try {
+                console.log(`Immediate confirmation for payment ${response.data.id}. Status: ${returnedStatus}`);
+                const { key, planName } = generateLicenseKey(price);
+                // Calculate expiry based on plan
+                let expiryDate = new Date();
+                if (planName === 'Daily')
+                    expiryDate.setDate(expiryDate.getDate() + 1);
+                else if (planName === 'Monthly')
+                    expiryDate.setDate(expiryDate.getDate() + 30);
+                else if (planName === 'Yearly')
+                    expiryDate.setDate(expiryDate.getDate() + 365);
+                else if (planName === 'Lifetime')
+                    expiryDate.setFullYear(expiryDate.getFullYear() + 99);
+                const { error: profileUpdateError } = await supabaseAdmin
+                    .from('profiles')
+                    .update({
+                    plan: planName,
+                    status: 'Active',
+                    license_key: key,
+                    expires_at: expiryDate.toISOString()
+                })
+                    .eq('id', user.id);
+                if (profileUpdateError) {
+                    console.error("Immediate Profile Update Error:", profileUpdateError);
+                }
+                else {
+                    console.log(`Profile updated successfully for user ${user.id} with plan ${planName}`);
+                }
+            }
+            catch (actErr) {
+                console.error("Immediate Activation Catch Error:", actErr);
+            }
         }
+        let pixData = null;
+        if (returnedStatus === 'PENDING' && type === 'PIX') {
+            try {
+                const pixResponse = await axios_1.default.get(`${ASAAS_API_URL}/payments/${response.data.id}/pixQrCode`, {
+                    headers: { access_token: ASAAS_API_KEY }
+                });
+                pixData = {
+                    encodedImage: pixResponse.data.encodedImage,
+                    payload: pixResponse.data.payload,
+                    expirationDate: pixResponse.data.expirationDate
+                };
+            }
+            catch (pixErr) {
+                console.warn("Failed to fetch PIX QR Code:", pixErr);
+            }
+        }
+        console.log(`Checkout response sent for payment ${response.data.id}. Internal PIX data: ${pixData ? 'YES' : 'NO'}`);
         return res.json({
             paymentId: response.data.id,
             invoiceUrl: response.data.invoiceUrl,
-            pixQrCode: response.data.bankSlipUrl,
+            pixQrCode: response.data.bankSlipUrl, // Legacy/Backup
+            pix: pixData, // Internal PIX Data
             status: returnedStatus
         });
     }
@@ -458,10 +505,32 @@ app.get('/api/user/billing', async (req, res) => {
         .order('created_at', { ascending: false });
     return res.json({ history: paymentHistory || [] });
 });
+// 4. Payment Status Polling
+app.get('/api/payments/status/:asaas_id', async (req, res) => {
+    const { asaas_id } = req.params;
+    try {
+        const { data: payment, error } = await supabaseAdmin
+            .from('payments')
+            .select('status')
+            .eq('asaas_id', asaas_id)
+            .single();
+        if (error || !payment) {
+            return res.status(404).json({ error: 'Payment not found' });
+        }
+        return res.json({ status: payment.status });
+    }
+    catch (err) {
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 // Download Route (Mocked security)
 app.get('/api/download/loader', (req, res) => {
     // In real app, verify token again before redirecting for download
     res.json({ url: "https://starlix.net/download/loader_v2.exe" });
+});
+// Health Check
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
 });
 // Start Server
 app.listen(port, () => {
