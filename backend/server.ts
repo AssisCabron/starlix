@@ -82,7 +82,7 @@ app.post('/api/auth/signup', async (req: Request, res: Response): Promise<any> =
     }
 });
 
-// Login Proxy
+// Login 
 app.post('/api/auth/login', async (req: Request, res: Response): Promise<any> => {
     const { email, password } = req.body;
 
