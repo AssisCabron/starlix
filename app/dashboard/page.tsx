@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Rocket, Download, Shield, Clock, LogOut } from "lucide-react";
 import LogoutButton from "./logout-button"; // Separate client component for logout logic
 import Link from "next/link";
+import RedeemForm from "./redeem-form";
 
 export default async function DashboardPage() {
   const profile = await getUserProfile();
@@ -70,7 +71,7 @@ export default async function DashboardPage() {
             <h2 className="text-xl font-bold text-white mb-4">Your License Key</h2>
             <div className="flex flex-col md:flex-row gap-4">
                 <code className="flex-1 bg-black/50 border border-white/10 rounded-lg p-4 font-mono text-primary text-lg text-center md:text-left">
-                    {profile?.licenseKey}
+                    {profile?.licenseKey || "No License"}
                 </code>
                 <Button variant="outline" className="h-auto">Copy Key</Button>
             </div>
@@ -78,6 +79,11 @@ export default async function DashboardPage() {
                 Do not share this key. It is linked to your HWID.
             </p>
         </Card>
+
+        {/* Redeem Key Section */}
+        <div className="mb-8">
+            <RedeemForm />
+        </div>
 
         {/* Download Section */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -110,6 +116,13 @@ export default async function DashboardPage() {
                          <li><Link href="/docs/common-issues" className="text-gray-300 hover:text-primary transition-colors block"> Fix Common Issues</Link></li>
                          <li><a href="https://discord.gg/starlix" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-primary transition-colors block"> Join Discord</a></li>
                          <li><Link href="/dashboard/hwid-reset" className="text-gray-300 hover:text-primary transition-colors block"> Request HWID Reset</Link></li>
+                         {(profile as any)?.is_reseller && (
+                             <li className="pt-2 border-t border-white/10 mt-2">
+                                 <Link href="/dashboard/reseller" className="text-primary hover:text-primary/80 transition-colors block font-bold">
+                                     💼 Reseller Dashboard
+                                 </Link>
+                             </li>
+                         )}
                      </ul>
                  </Card>
              </div>

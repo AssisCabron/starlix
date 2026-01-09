@@ -10,17 +10,29 @@ export async function getUserProfile() {
     return null;
   }
 
+  // Force localhost for development
+  const API_URL = 'http://localhost:4000';
+  
+  console.log('[Server Action] getUserProfile - API_URL:', API_URL);
+
   try {
-      const res = await fetch('https://starlix-back.onrender.com/api/user/profile', {
+      const res = await fetch(`${API_URL}/api/user/profile`, {
           headers: {
               'Authorization': `Bearer ${token.value}`
           },
           cache: 'no-store'
       });
 
-      if (!res.ok) return null;
+      console.log('[Server Action] getUserProfile - Response status:', res.status);
 
-      return await res.json();
+      if (!res.ok) {
+          console.log('[Server Action] getUserProfile - Response not OK');
+          return null;
+      }
+
+      const data = await res.json();
+      console.log('[Server Action] getUserProfile - is_reseller:', data.is_reseller);
+      return data;
   } catch (error) {
       console.error("Backend Fetch Error:", error);
       return null;
@@ -40,8 +52,12 @@ export async function getBillingHistory() {
 
   if (!token) return [];
 
+  const API_URL = process.env.NODE_ENV === 'development' 
+    ? 'http://localhost:4000' 
+    : 'https://starlix-back.onrender.com';
+
   try {
-      const res = await fetch('https://starlix-back.onrender.com/api/user/billing', {
+      const res = await fetch(`${API_URL}/api/user/billing`, {
           headers: {
               'Authorization': `Bearer ${token.value}`
           },
