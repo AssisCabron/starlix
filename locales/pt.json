@@ -1,0 +1,356 @@
+{
+  "nav": {
+    "features": "Funcionalidades",
+    "reviews": "Avaliações",
+    "pricing": "Preços",
+    "dashboard": "Meu Painel",
+    "login": "Entrar",
+    "get_access": "Obter Acesso"
+  },
+  "hero": {
+    "status": "Não Detectado & Funcionando na Versão Mais Recente",
+    "title_dominate": "DOMINE",
+    "title_server": "O SERVIDOR",
+    "description": "O executor definitivo para FiveM. {bold_external}100% Externo{/bold_external}, execução segura e recursos premium projetados para o jogador sério.",
+    "cta_access": "Obter Acesso Agora",
+    "cta_features": "Ver Funcionalidades",
+    "badge_secure": "Seguro",
+    "badge_fast": "Injeção Rápida"
+  },
+  "stats": {
+    "title": "Confiado em Todo o Mundo",
+    "subtitle": "Junte-se à comunidade que mais cresce no cenário.",
+    "active_users": {
+        "label": "Usuários Ativos",
+        "description": "Confiando em nós diariamente"
+    },
+    "global_reach": {
+        "label": "Alcance Global",
+        "description": "Países suportados"
+    },
+    "rating": {
+        "label": "Avaliação",
+        "description": "Baseado em mais de 2 mil avaliações"
+    }
+  },
+  "features": {
+    "badge": "Projetado para Dominar",
+    "title": "Configurações Inigualáveis",
+    "subtitle": "Repleto de recursos líderes do setor que colocam você no controle.",
+    "items": {
+        "external": {
+            "title": "100% Externo",
+            "description": "Opera completamente fora do processo do jogo. Zero riscos de injeção."
+        },
+        "aimbot": {
+            "title": "Silent Aim",
+            "description": "Aimbot humanizado avançado com FOV e suavização ajustáveis."
+        },
+        "esp": {
+            "title": "ESP de Alta Performance",
+            "description": "Veja jogadores, veículos e itens através de paredes com zero queda de FPS."
+        },
+        "": {
+            "title": "Execução ",
+            "description": "Carregue e execute qualquer script  instantaneamente. Compatibilidade total."
+        },
+        "update": {
+            "title": "Atualização Instantânea",
+            "description": "Atualizações em nuvem garantem que você esteja sempre protegido."
+        },
+        "config": {
+            "title": "Configurável",
+            "description": "Salve e carregue vários perfis de configuração para diferentes servidores."
+        }
+    }
+  },
+  "preview": {
+    "title": "Controle Total",
+    "subtitle": "Painel",
+    "description": "Gerencie sua licença, visualize o status da sua assinatura e baixe o loader mais recente diretamente do nosso painel de usuário seguro. Tudo o que você precisa a um clique de distância.",
+    "points": [
+        "Ativação Instantânea de Licença",
+        "Gerenciamento de Configuração em Nuvem",
+        "Atualizações de Status em Tempo Real",
+        "Sistema de Tickets de Suporte 24/7"
+    ],
+    "cta": "Acessar Painel",
+    "mockup": {
+        "status": "Status",
+        "online": "Online",
+        "active": "Ativo",
+        "subscription": "Assinatura",
+        "lifetime": "Vitalício",
+        "last_updated": "Última atualização",
+        "download": "Baixar",
+        "logout": "Sair"
+    }
+  },
+  "testimonials": {
+    "badge": "Feedback da Comunidade",
+    "title": "O Que Eles Dizem",
+    "roles": {
+        "buyer": "Comprador Verificado",
+        "lifetime": "Usuário Vitalício",
+        "subscriber": "Assinante Mensal"
+    },
+    "quotes": {
+        "alex": "Melhor externo que já usei. O aimbot parece tão legítimo, os admins me observaram por 30 minutos e não encontraram nada. 10/10.",
+        "night": "O suporte é insano. Tive um problema com minha chave e eles resolveram em 2 minutos. O menu em si é liso como manteiga.",
+        "fivegod": "Parece o redENGINE, mas é ainda mais otimizado. O FPS mal cai, mesmo com o ESP total ligado. Starlix é o futuro."
+    }
+  },
+  "pricing_section": {
+    "badge": "Acesso Premium",
+    "title": "Libere Seu",
+    "title_glow": "Potencial",
+    "description": "Escolha entre planos flexíveis adaptados às suas necessidades. Opções Diária, Mensal, Anual e Vitalícia disponíveis. Começa por apenas {bold}R$ 9,90{/bold}.",
+    "cta": "Ver Planos e Preços"
+  },
+  "footer_cta": {
+    "title": "Pronto para",
+    "title_glow": "Dominar?",
+    "description": "Junte-se a milhares de usuários satisfeitos e experimente a diferença hoje.",
+    "cta": "Obter Starlix Agora"
+  },
+  "login": {
+    "welcome": "Bem-vindo de Volta",
+    "subtitle": "Insira suas credenciais para acessar o painel",
+    "email": "E-mail",
+    "password": "Senha",
+    "signin": "Entrar",
+    "or": "Ou",
+    "create": "Criar Conta",
+    "redirecting": "Conta criada! Redirecionando para o login...",
+    "errors": {
+        "failed": "Falha no login",
+        "signup_failed": "Falha no cadastro"
+    }
+  },
+  "dashboard": {
+    "title": "Meu Painel",
+    "welcome": "Bem-vindo de volta",
+    "support": "Suporte",
+    "logout": "Sair",
+    "stats": {
+        "status": "Status",
+        "plan": "Plano",
+        "expires": "Expira em",
+        "hwid": "Status do HWID",
+        "manage": "Gerenciar Assinatura"
+    },
+    "license": {
+        "title": "Sua Chave de Licença",
+        "copy": "Copiar Chave",
+        "warning": "Não compartilhe esta chave. Ela está vinculada ao seu HWID.",
+        "none": "Sem Licença"
+    },
+    "loader": {
+        "description": "Sempre use a versão mais recente do loader para garantir o status de não detectado. Desative o antivírus antes de baixar.",
+        "updated": "Atualizado",
+        "version": "Versão"
+    },
+    "links": {
+        "title": "Links Rápidos",
+        "installation": "Guia de Instalação",
+        "issues": "Corrigir Problemas Comuns",
+        "discord": "Entrar no Discord",
+        "hwid": "Solicitar Reset de HWID",
+        "reseller": "Painel de Revendedor"
+    },
+    "redeem": {
+        "title": "Resgatar Chave de Licença",
+        "description": "Comprou uma chave de um revendedor? Digite-a abaixo para ativar seu plano instantaneamente.",
+        "placeholder": "AAAA_RESELLER_XXXX_YYYY",
+        "button": "Resgatar Chave",
+        "redeeming": "Resgatando...",
+        "success": "Licença desbloqueada com sucesso!",
+        "errors": {
+            "login": "Por favor, faça login primeiro",
+            "failed": "Falha no resgate",
+            "connect": "Falha ao conectar ao servidor"
+        }
+    },
+    "subscription": {
+        "title": "Gerenciamento de Assinatura",
+        "subtitle": "Gerencie seu plano ativo, renovações e faturamento.",
+        "back": "Voltar para o Painel",
+        "current": {
+            "title": "Plano Atual",
+            "status": "Status",
+            "expires": "Expira em",
+            "renew": "Renovar / Upgrade"
+        },
+        "billing": {
+            "title": "Histórico de Faturamento",
+            "description": "Veja suas faturas anteriores e métodos de pagamento.",
+            "empty": "Nenhum histórico de pagamento encontrado.",
+            "view": "Ver"
+        },
+        "cancel": {
+            "title": "Cancelar Assinatura",
+            "renewal_disabled": "A renovação automática está atualmente {bold}DESATIVADA{/bold}. Seu plano expirará automaticamente em {date}.",
+            "button": "Cancelar Imediatamente",
+            "note_title": "Observação sobre cancelamentos",
+            "note_description": "O cancelamento da sua assinatura garantirá que nenhum pagamento futuro seja realizado. Você manterá o acesso até o final do período atual."
+        }
+    }
+  },
+  "purchase": {
+    "title": "Escolha Sua",
+    "title_glow": "Arma",
+    "subtitle": "Selecione o plano que se adapta ao seu estilo de jogo. Entrega instantânea. Pagamentos seguros.",
+    "popular": "MAIS POPULAR",
+    "buy_now": "Comprar Agora",
+    "period": {
+      "day": "/dia",
+      "month": "/mês",
+      "year": "/ano",
+      "lifetime": "único"
+    },
+    "plans": {
+      "daily": {
+        "title": "Acesso Diário",
+        "description": "Perfeito para testar as águas.",
+        "features": ["Acesso 24 Horas", "Todas as Funções Liberadas", "Entrega Instantânea", "Suporte Básico"]
+      },
+      "monthly": {
+        "title": "Plano Mensal",
+        "description": "Escolha mais popular para regulares.",
+        "features": ["30 Dias de Acesso", "Todas as Funções Liberadas", "Atualizações Prioritárias", "Suporte Padrão"]
+      },
+      "yearly": {
+        "title": "Pro Anual",
+        "description": "Melhor valor para usuários de longo prazo.",
+        "features": ["365 Dias de Acesso", "Todas as Funções Liberadas", "Acesso Antecipado a Betas", "Suporte Prioritário"]
+      },
+      "lifetime": {
+        "title": "Elite Vitalício",
+        "description": "Pague uma vez, seja dono para sempre.",
+        "features": ["Acesso Ilimitado", "Todas as Atualizações Futuras", "Cargo Exclusivo no Discord", "Suporte VIP 24/7"]
+      }
+    }
+  },
+  "checkout": {
+    "title": "Check-out Seguro",
+    "personal": {
+      "title": "1. Informações Pessoais",
+      "name": "Nome Completo",
+      "cpf": "CPF / CNPJ",
+      "phone": "Celular"
+    },
+    "payment": {
+      "title": "2. Método de Pagamento",
+      "pix": "PIX",
+      "card": "Cartão de Crédito",
+      "card_name": "Nome no Cartão",
+      "card_name_placeholder": "Como impresso no cartão",
+      "card_number": "Número do Cartão",
+      "expiry": "Validade",
+      "cvv": "CVV",
+      "pix_note": "Aprovado instantaneamente. Você receberá um código QR após clicar em Pagar Agora."
+    },
+    "summary": {
+      "title": "Resumo do Pedido",
+      "total": "Total",
+      "button": "Pagar",
+      "processing": "Processando...",
+      "secure": "Criptografado e Seguro"
+    },
+    "pix": {
+      "copy": "Copie e cole o código abaixo:",
+      "waiting": "Aguardando pagamento...",
+      "confirmed": "Pagamento Confirmado!",
+      "redirecting": "Redirecionando para o painel..."
+    },
+    "errors": {
+      "personal_required": "Por favor, preencha todos os dados pessoais.",
+      "card_required": "Por favor, preencha todos os dados do cartão.",
+      "pix_failed": "Não foi possível gerar o código QR do PIX. Tente novamente ou entre em contato com o suporte.",
+      "checkout_failed": "Erro no Check-out: ",
+      "general_failed": "Falha ao processar o pagamento."
+    }
+  },
+  "docs": {
+    "installation": {
+      "title": "Guia de Instalação",
+      "subtitle": "Siga estes passos para instalar e executar o Starlix Menu corretamente.",
+      "steps": {
+        "1": {
+          "title": "Baixe o Loader",
+          "description": "Vá para o seu painel e baixe a versão mais recente do loader (`Starlix_Loader.exe`).",
+          "note": "Certifique-se de desativar o Windows Defender ou qualquer outra proteção em tempo real de antivírus, pois eles podem sinalizar o loader como um falso positivo devido à ofuscação."
+        },
+        "2": {
+          "title": "Executar como Administrador",
+          "description": "Clique com o botão direito no arquivo do loader e selecione {bold}Executar como Administrador{/bold}. Isso é necessário para que o loader injete no processo do jogo corretamente."
+        },
+        "3": {
+          "title": "Fazer Login",
+          "description": "Insira suas credenciais da conta Starlix (e-mail e senha) no loader e clique em \"Login\"."
+        },
+        "4": {
+          "title": "Injetar",
+          "description": "Após fazer o login, certifique-se de que o FiveM está rodando ou aguardando para ser iniciado. Clique em \"Load\" no cheat que deseja usar."
+        }
+      }
+    },
+    "issues": {
+      "title": "Corrigir Problemas Comuns",
+      "subtitle": "Soluções para os problemas mais frequentes que os usuários encontram.",
+      "items": {
+        "crashes": {
+          "title": "Loader fecha instantaneamente",
+          "description": "Certifique-se de ter os Pacotes Redistribuíveis do Visual C++ mais recentes instalados. Além disso, verifique se o seu antivírus está completamente desativado."
+        },
+        "hwid": {
+          "title": "Erro de \"HWID Mismatch\"",
+          "description": "Isso significa que você está tentando usar o cheat em um computador diferente daquele que usou originalmente. Você pode solicitar um reset de HWID no Painel."
+        },
+        "menu": {
+          "title": "Menu não abre no jogo",
+          "description": "Certifique-se de que seu jogo está no modo \"Janela Sem Bordas\". O modo tela cheia exclusivo às vezes pode bloquear a sobreposição."
+        }
+      }
+    },
+    "reseller": {
+      "title": "Painel de Revendedor",
+      "subtitle": "Gerencie suas chaves de atacado e ganhos",
+      "stats": {
+        "balance": "Saldo Disponível",
+        "sales": "Vendas Totais",
+        "keys": "Chaves Disponíveis"
+      },
+      "purchase": {
+        "title": "Comprar Chaves de Atacado",
+        "quantity": "Quantidade",
+        "personal_info": "Informações Pessoais",
+        "payment_method": "Método de Pagamento",
+        "total": "Custo Total",
+        "button": "Comprar Chaves",
+        "processing": "Processando...",
+        "success": "Comprado com sucesso {qty} chaves {plan}!",
+        "error_info": "Por favor, preencha todos os campos de informações pessoais.",
+        "error_card": "Por favor, preencha todos os campos do cartão de crédito.",
+        "error_failed": "Falha na compra"
+      },
+      "withdraw": {
+        "title": "Sacar Saldo",
+        "amount": "Valor (R$)",
+        "pix_key": "Chave PIX",
+        "pix_placeholder": "Sua chave PIX (CPF, e-mail, telefone, etc.)",
+        "note": "Os pedidos de saque são processados manualmente dentro de 24-48 horas.",
+        "button": "Solicitar Saque",
+        "success": "Pedido de saque enviado!",
+        "error": "Por favor, insira um valor válido e uma chave PIX",
+        "fail": "Falha no saque"
+      },
+      "inventory": {
+        "title": "Estoque de Chaves",
+        "total_keys": "{qty} Chaves no Total",
+        "recent": "Chaves Recentes",
+        "no_keys": "Nenhuma chave comprada ainda.",
+        "copy": "Copiar Chave"
+    }
+  }
+}

@@ -16,6 +16,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { LanguageProvider } from "@/context/LanguageContext";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -24,12 +26,14 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark scroll-smooth">
       <body className={`${inter.variable} font-sans bg-background text-foreground antialiased selection:bg-primary selection:text-white`}>
-        <Particles />
-        <Navbar />
-        <main className="relative z-10 min-h-screen">
-            {children}
-        </main>
-        <Footer />
+        <LanguageProvider>
+          <Particles />
+          <Navbar />
+          <main className="relative z-10 min-h-screen">
+              {children}
+          </main>
+          <Footer />
+        </LanguageProvider>
       </body>
     </html>
   );

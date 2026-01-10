@@ -7,7 +7,10 @@ import { Card } from "@/components/ui/card";
 import { Rocket, Loader2 } from "lucide-react";
 import Link from "next/link";
 
+import { useLanguage } from "@/context/LanguageContext";
+
 export default function LoginPage() {
+  const { t } = useLanguage();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -32,7 +35,7 @@ export default function LoginPage() {
         const data = await res.json();
 
         if (!res.ok) {
-            throw new Error(data.error || 'Login failed');
+            throw new Error(data.error || t("login.errors.failed"));
         }
 
         // Store token in cookie
@@ -66,10 +69,10 @@ export default function LoginPage() {
           const data = await res.json();
 
           if (!res.ok) {
-              throw new Error(data.error || 'Signup failed');
+              throw new Error(data.error || t("login.errors.signup_failed"));
           }
 
-          setError("Account created! Redirecting to login...");
+          setError(t("login.redirecting"));
           setTimeout(() => {
               // Automatically switch to login view or just let user click
                const params = new URLSearchParams(window.location.search);
@@ -98,13 +101,13 @@ export default function LoginPage() {
                STAR<span className="text-primary">LIX</span>
              </span>
           </Link>
-          <h1 className="text-2xl font-bold text-white">Welcome Back</h1>
-          <p className="text-gray-400">Enter your credentials to access the dashboard</p>
+          <h1 className="text-2xl font-bold text-white">{t("login.welcome")}</h1>
+          <p className="text-gray-400">{t("login.subtitle")}</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-300">Email</label>
+            <label className="text-sm font-medium text-gray-300">{t("login.email")}</label>
             <input
               type="email"
               value={email}
@@ -115,7 +118,7 @@ export default function LoginPage() {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-300">Password</label>
+            <label className="text-sm font-medium text-gray-300">{t("login.password")}</label>
             <input
               type="password"
               value={password}
@@ -132,7 +135,7 @@ export default function LoginPage() {
           )}
 
           <Button type="submit" variant="neon" className="w-full" disabled={isLoading}>
-            {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Sign In"}
+            {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : t("login.signin")}
           </Button>
           
           <div className="relative my-4">
@@ -140,12 +143,12 @@ export default function LoginPage() {
               <span className="w-full border-t border-white/10" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-black px-2 text-gray-500">Or</span>
+              <span className="bg-black px-2 text-gray-500">{t("login.or")}</span>
             </div>
           </div>
           
            <Button type="button" variant="outline" className="w-full" onClick={handleSignUp} disabled={isLoading}>
-            Create Account
+            {t("login.create")}
           </Button>
 
         </form>

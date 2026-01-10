@@ -1,39 +1,44 @@
+"use client";
+
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function CommonIssuesPage() {
+  const { t } = useLanguage();
+
   return (
     <div className="min-h-screen bg-background text-white pt-24 pb-12">
       <div className="container mx-auto px-4 max-w-4xl">
         <Link href="/dashboard">
-             <Button variant="ghost" className="mb-6">&larr; Back to Dashboard</Button>
+             <Button variant="ghost" className="mb-6">&larr; {t("dashboard.subscription.back")}</Button>
         </Link>
         
         <div className="mb-8">
-            <h1 className="text-4xl font-bold text-primary mb-4">Fix Common Issues</h1>
-            <p className="text-gray-400 text-lg">Solutions to the most frequent problems users encounter.</p>
+            <h1 className="text-4xl font-bold text-primary mb-4">{t("docs.issues.title")}</h1>
+            <p className="text-gray-400 text-lg">{t("docs.issues.subtitle")}</p>
         </div>
 
         <div className="grid gap-6">
             <Card className="p-6 border-white/10 bg-white/5">
-                <h3 className="text-xl font-bold text-white mb-2">Loader crashes instantly</h3>
+                <h3 className="text-xl font-bold text-white mb-2">{t("docs.issues.items.crashes.title")}</h3>
                 <p className="text-gray-300">
-                    Ensure you have the latest Visual C++ Redistributables installed. Also, check if your antivirus is completely disabled.
+                    {t("docs.issues.items.crashes.description")}
                 </p>
             </Card>
 
             <Card className="p-6 border-white/10 bg-white/5">
-                <h3 className="text-xl font-bold text-white mb-2">"HWID Mismatch" Error</h3>
+                <h3 className="text-xl font-bold text-white mb-2">{t("docs.issues.items.hwid.title")}</h3>
                 <p className="text-gray-300">
-                    This means you are trying to use the cheat on a different computer than the one you originally used. You can request an HWID reset in the Dashboard.
+                    {t("docs.issues.items.hwid.description")}
                 </p>
             </Card>
 
             <Card className="p-6 border-white/10 bg-white/5">
-                <h3 className="text-xl font-bold text-white mb-2">Menu not opening in-game</h3>
+                <h3 className="text-xl font-bold text-white mb-2">{t("docs.issues.items.menu.title")}</h3>
                 <p className="text-gray-300">
-                    Make sure your game is in "Borderless Windowed" mode. Fullscreen exclusive mode can sometimes block the overlay.
+                    {t("docs.issues.items.menu.description")}
                 </p>
             </Card>
         </div>

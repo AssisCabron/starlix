@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Card } from "@/components/ui/card";
 import { CheckCircle2, Ticket } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function RedeemForm() {
+    const { t } = useLanguage();
     const [key, setKey] = useState("");
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState<{ success: boolean; message: string } | null>(null);
@@ -26,7 +28,7 @@ export default function RedeemForm() {
 
         const token = document.cookie.split('; ').find(row => row.startsWith('access_token='));
         if (!token) {
-            setResult({ success: false, message: "Please log in first" });
+            setResult({ success: false, message: t("dashboard.redeem.errors.login") });
             setLoading(false);
             return;
         }
@@ -45,14 +47,14 @@ export default function RedeemForm() {
 
             const data = await res.json();
             if (res.ok) {
-                setResult({ success: true, message: data.message });
+                setResult({ success: true, message: data.message || t("dashboard.redeem.success") });
                 // Refresh page after 2 seconds to show new status
                 setTimeout(() => window.location.reload(), 2000);
             } else {
-                setResult({ success: false, message: data.error || "Redemption failed" });
+                setResult({ success: false, message: data.error || t("dashboard.redeem.errors.failed") });
             }
         } catch (error) {
-            setResult({ success: false, message: "Failed to connect to server" });
+            setResult({ success: false, message: t("dashboard.redeem.errors.connect") });
         } finally {
             setLoading(false);
         }
@@ -61,10 +63,10 @@ export default function RedeemForm() {
     return (
         <Card className="p-8 border-yellow-500/20 bg-yellow-500/5">
             <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                <Ticket className="w-5 h-5 text-yellow-500" /> Redeem License Key
+                <Ticket className="w-5 h-5 text-yellow-500" /> {t("dashboard.redeem.title")}
             </h2>
             <p className="text-sm text-gray-400 mb-6">
-                Purchased a key from a reseller? Enter it below to activate your plan instantly.
+                {t("dashboard.redeem.description")}
             </p>
 
             {result ? (
@@ -77,13 +79,13 @@ export default function RedeemForm() {
             ) : (
                 <form onSubmit={handleRedeem} className="flex flex-col sm:flex-row gap-4">
                     <Input
-                        placeholder="AAAA_RESELLER_XXXX_YYYY"
+                        placeholder={t("dashboard.redeem.placeholder")}
                         value={key}
                         onChange={(e) => setKey(e.target.value.toUpperCase())}
                         className="flex-1 bg-black/50 border-white/10"
                     />
                     <Button type="submit" disabled={loading} variant="neon">
-                        {loading ? "Redeeming..." : "Redeem Key"}
+                        {loading ? t("dashboard.redeem.redeeming") : t("dashboard.redeem.button")}
                     </Button>
                 </form>
             )}

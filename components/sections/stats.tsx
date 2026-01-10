@@ -4,28 +4,32 @@ import { motion } from "framer-motion";
 import { Users, Globe, Star } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
-const stats = [
+import { useLanguage } from "@/context/LanguageContext";
+
+export function Stats() {
+  const { t } = useLanguage();
+
+  const stats = [
     {
-      label: "Active Users",
+      label: t("stats.active_users.label"),
       value: "10,000+",
       icon: Users,
-      description: "Trusting us daily",
+      description: t("stats.active_users.description"),
     },
     {
-      label: "Global Reach",
+      label: t("stats.global_reach.label"),
       value: "150+",
       icon: Globe,
-      description: "Countries supported",
+      description: t("stats.global_reach.description"),
     },
     {
-      label: "Rating",
+      label: t("stats.rating.label"),
       value: "4.9/5",
       icon: Star,
-      description: "Based on 2k+ reviews",
+      description: t("stats.rating.description"),
     },
 ];
 
-export function Stats() {
   return (
     <section className="py-20 relative z-10 bg-black/50 backdrop-blur-sm border-y border-white/5">
       <div className="container mx-auto px-4">
@@ -35,8 +39,8 @@ export function Stats() {
             viewport={{ once: true }}
             className="text-center mb-12"
         >
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">Trusted Worldwide</h2>
-            <p className="text-gray-400">Join the fastest growing community in the scene.</p>
+            <h2 className="text-3xl md:text-5xl font-bold mb-4">{t("stats.title")}</h2>
+            <p className="text-gray-400">{t("stats.subtitle")}</p>
         </motion.div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

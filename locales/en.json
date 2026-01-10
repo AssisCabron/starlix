@@ -1,0 +1,357 @@
+{
+  "nav": {
+    "features": "Features",
+    "reviews": "Reviews",
+    "pricing": "Pricing",
+    "dashboard": "My Dashboard",
+    "login": "Login",
+    "get_access": "Get Access"
+  },
+  "hero": {
+    "status": "Undetected & Working on Latest Build",
+    "title_dominate": "DOMINATE",
+    "title_server": "THE SERVER",
+    "description": "The ultimate Lua executor for FiveM. {bold_external}100% External{/bold_external}, safe execution, and premium features designed for the serious player.",
+    "cta_access": "Get Access Now",
+    "cta_features": "View Features",
+    "badge_secure": "Secure",
+    "badge_fast": "Fast Injection"
+  },
+  "stats": {
+    "title": "Trusted Worldwide",
+    "subtitle": "Join the fastest growing community in the scene.",
+    "active_users": {
+        "label": "Active Users",
+        "description": "Trusting us daily"
+    },
+    "global_reach": {
+        "label": "Global Reach",
+        "description": "Countries supported"
+    },
+    "rating": {
+        "label": "Rating",
+        "description": "Based on 2k+ reviews"
+    }
+  },
+  "features": {
+    "badge": "Designed to Dominate",
+    "title": "Unrivaled Settings",
+    "subtitle": "Packed with industry-leading features that put you in control.",
+    "items": {
+        "external": {
+            "title": "100% External",
+            "description": "Operates completely outside the game process. Zero injection risks."
+        },
+        "aimbot": {
+            "title": "Silent Aim",
+            "description": "Advanced humantized aimbot with adjustable FOV and smoothing."
+        },
+        "esp": {
+            "title": "ESP High-Performance",
+            "description": "See players, vehicles, and items through walls with zero FPS drop."
+        },
+        "lua": {
+            "title": "Lua Execution",
+            "description": "Load and run any Lua script instantly. Full compatibility."
+        },
+        "update": {
+            "title": "Instant Update",
+            "description": "Cloud-based updates ensure you are always protected."
+        },
+        "config": {
+            "title": "Configurable",
+            "description": "Save and load multiple config profiles for different servers."
+        }
+    }
+  },
+  "preview": {
+    "title": "Complete Control",
+    "subtitle": "Dashboard",
+    "description": "Manage your license, view your subscription status, and download the latest loader directly from our secure user panel. Everything you need, one click away.",
+    "points": [
+        "Instant License Activation",
+        "Cloud-Based Config Management",
+        "Real-time Status Updates",
+        "24/7 Support Ticket System"
+    ],
+    "cta": "Access Dashboard",
+    "mockup": {
+        "status": "Status",
+        "online": "Online",
+        "active": "Active",
+        "subscription": "Subscription",
+        "lifetime": "Lifetime",
+        "last_updated": "Last updated",
+        "download": "Download",
+        "logout": "Logout"
+    }
+  },
+  "testimonials": {
+    "badge": "Community Feedback",
+    "title": "What They Say",
+    "roles": {
+        "buyer": "Verified Buyer",
+        "lifetime": "Lifetime User",
+        "subscriber": "Month Sub"
+    },
+    "quotes": {
+        "alex": "Best external I've ever used. The aimbot is so legit looking, admins spectated me for 30 mins and found nothing. 10/10.",
+        "night": "Support is insane. Had an issue with my key and they fixed it in 2 minutes. The menu itself is smooth as butter.",
+        "fivegod": "RedENGINE lookalike but feels even better optimized. FPS barely drops even with full ESP on. Starlix is the future."
+    }
+  },
+  "pricing_section": {
+    "badge": "Premium Access",
+    "title": "Unleash Your",
+    "title_glow": "Potential",
+    "description": "Choose from flexible plans tailored to your needs. Daily, Monthly, Yearly, and Lifetime options available. Starts at just {bold}R$ 9,90{/bold}.",
+    "cta": "View Plans & Pricing"
+  },
+  "footer_cta": {
+    "title": "Ready to",
+    "title_glow": "Dominate?",
+    "description": "Join thousands of satisfied users and experience the difference today.",
+    "cta": "Get Starlix Now"
+  },
+  "login": {
+    "welcome": "Welcome Back",
+    "subtitle": "Enter your credentials to access the dashboard",
+    "email": "Email",
+    "password": "Password",
+    "signin": "Sign In",
+    "or": "Or",
+    "create": "Create Account",
+    "redirecting": "Account created! Redirecting to login...",
+    "errors": {
+        "failed": "Login failed",
+        "signup_failed": "Signup failed"
+    }
+  },
+  "dashboard": {
+    "title": "My Dashboard",
+    "welcome": "Welcome back",
+    "support": "Support",
+    "logout": "Logout",
+    "stats": {
+        "status": "Status",
+        "plan": "Plan",
+        "expires": "Expires",
+        "hwid": "HWID Status",
+        "manage": "Manage Subscription"
+    },
+    "license": {
+        "title": "Your License Key",
+        "copy": "Copy Key",
+        "warning": "Do not share this key. It is linked to your HWID.",
+        "none": "No License"
+    },
+    "loader": {
+        "title": "Download Loader",
+        "description": "Always use the latest version of the loader to ensure undetected status. Disable antivirus before downloading.",
+        "updated": "Updated",
+        "version": "Version"
+    },
+    "links": {
+        "title": "Quick Links",
+        "installation": "Installation Guide",
+        "issues": "Fix Common Issues",
+        "discord": "Join Discord",
+        "hwid": "Request HWID Reset",
+        "reseller": "Reseller Dashboard"
+    },
+    "redeem": {
+        "title": "Redeem License Key",
+        "description": "Purchased a key from a reseller? Enter it below to activate your plan instantly.",
+        "placeholder": "AAAA_RESELLER_XXXX_YYYY",
+        "button": "Redeem Key",
+        "redeeming": "Redeeming...",
+        "success": "License activated successfully!",
+        "errors": {
+            "login": "Please log in first",
+            "failed": "Redemption failed",
+            "connect": "Failed to connect to server"
+        }
+    },
+    "subscription": {
+        "title": "Subscription Management",
+        "subtitle": "Manage your active plan, renewals, and billing.",
+        "back": "Back to Dashboard",
+        "current": {
+            "title": "Current Plan",
+            "status": "Status",
+            "expires": "Expires",
+            "renew": "Renew / Upgrade"
+        },
+        "billing": {
+            "title": "Billing History",
+            "description": "View your past invoices and payment methods.",
+            "empty": "No payment history found.",
+            "view": "View"
+        },
+        "cancel": {
+            "title": "Cancel Subscription",
+            "renewal_disabled": "Auto-renewal is currently {bold}DISABLED{/bold}. Your plan will expire automatically on {date}.",
+            "button": "Cancel Immediately",
+            "note_title": "Note regarding cancellations",
+            "note_description": "Cancelling your subscription will verify that no further payments are taken. You will retain access until your current period expires."
+        }
+    }
+  },
+  "purchase": {
+    "title": "Choose Your",
+    "title_glow": "Weapon",
+    "subtitle": "Select the plan that fits your playstyle. Instant delivery. Secure payments.",
+    "popular": "MOST POPULAR",
+    "buy_now": "Buy Now",
+    "period": {
+      "day": "/day",
+      "month": "/month",
+      "year": "/year",
+      "lifetime": "one-time"
+    },
+    "plans": {
+      "daily": {
+        "title": "Daily Access",
+        "description": "Perfect for testing the waters.",
+        "features": ["24 Hour Access", "All Features Unlocked", "Instant Delivery", "Basic Support"]
+      },
+      "monthly": {
+        "title": "Monthly Plan",
+        "description": "Most popular choice for regulars.",
+        "features": ["30 Days Access", "All Features Unlocked", "Priority Updates", "Standard Support"]
+      },
+      "yearly": {
+        "title": "Yearly Pro",
+        "description": "Best value for long-term users.",
+        "features": ["365 Days Access", "All Features Unlocked", "Early Access to Betas", "Priority Support"]
+      },
+      "lifetime": {
+        "title": "Lifetime Elite",
+        "description": "Pay once, own it forever.",
+        "features": ["Unlimited Access", "All Future Updates", "Exclusive Discord Role", "VIP Support 24/7"]
+      }
+    }
+  },
+  "checkout": {
+    "title": "Secure Checkout",
+    "personal": {
+      "title": "1. Personal Information",
+      "name": "Full Name",
+      "cpf": "CPF / CNPJ",
+      "phone": "Mobile Phone"
+    },
+    "payment": {
+      "title": "2. Payment Method",
+      "pix": "PIX",
+      "card": "Credit Card",
+      "card_name": "Cardholder Name",
+      "card_name_placeholder": "Name as printed on card",
+      "card_number": "Card Number",
+      "expiry": "Expiry",
+      "cvv": "CVV",
+      "pix_note": "Approved instantly. You will receive a QR Code after clicking Pay Now."
+    },
+    "summary": {
+      "title": "Order Summary",
+      "total": "Total",
+      "button": "Pay",
+      "processing": "Processing...",
+      "secure": "Encrypted & Secure"
+    },
+    "pix": {
+      "copy": "Copy and paste the code below:",
+      "waiting": "Waiting for payment...",
+      "confirmed": "Payment Confirmed!",
+      "redirecting": "Redirecting to dashboard..."
+    },
+    "errors": {
+      "personal_required": "Please fill in all personal details.",
+      "card_required": "Please fill in all credit card details.",
+      "pix_failed": "Could not generate PIX QR Code. Please try again or contact support.",
+      "checkout_failed": "Checkout Error: ",
+      "general_failed": "Failed to process payment."
+    }
+  },
+  "docs": {
+    "installation": {
+      "title": "Installation Guide",
+      "subtitle": "Follow these steps to install and run Starlix Menu correctly.",
+      "steps": {
+        "1": {
+          "title": "Download the Loader",
+          "description": "Go to your dashboard and download the latest version of the loader (`Starlix_Loader.exe`).",
+          "note": "Make sure to disable Windows Defender or any other antivirus real-time protection, as they might flag the loader as a false positive due to obfuscation."
+        },
+        "2": {
+          "title": "Run as Administrator",
+          "description": "Right-click the loader file and select {bold}Run as Administrator{/bold}. This is required for the loader to inject into the game process properly."
+        },
+        "3": {
+          "title": "Log In",
+          "description": "Enter your Starlix account credentials (email and password) into the loader and click \"Login\"."
+        },
+        "4": {
+          "title": "Inject",
+          "description": "Once logged in, ensure FiveM is running or waiting to be launched. Click \"Load\" on the cheat you want to use."
+        }
+      }
+    },
+    "issues": {
+      "title": "Fix Common Issues",
+      "subtitle": "Solutions to the most frequent problems users encounter.",
+      "items": {
+        "crashes": {
+          "title": "Loader crashes instantly",
+          "description": "Ensure you have the latest Visual C++ Redistributables installed. Also, check if your antivirus is completely disabled."
+        },
+        "hwid": {
+          "title": "\"HWID Mismatch\" Error",
+          "description": "This means you are trying to use the cheat on a different computer than the one you originally used. You can request an HWID reset in the Dashboard."
+        },
+        "menu": {
+          "title": "Menu not opening in-game",
+          "description": "Make sure your game is in \"Borderless Windowed\" mode. Fullscreen exclusive mode can sometimes block the overlay."
+        }
+      }
+    },
+    "reseller": {
+      "title": "Reseller Dashboard",
+      "subtitle": "Manage your wholesale keys and earnings",
+      "stats": {
+        "balance": "Available Balance",
+        "sales": "Total Sales",
+        "keys": "Available Keys"
+      },
+      "purchase": {
+        "title": "Purchase Wholesale Keys",
+        "quantity": "Quantity",
+        "personal_info": "Personal Information",
+        "payment_method": "Payment Method",
+        "total": "Total Cost",
+        "button": "Purchase Keys",
+        "processing": "Processing...",
+        "success": "Successfully purchased {qty} {plan} keys!",
+        "error_info": "Please fill in all personal information fields.",
+        "error_card": "Please fill in all credit card fields.",
+        "error_failed": "Purchase failed"
+      },
+      "withdraw": {
+        "title": "Withdraw Balance",
+        "amount": "Amount (R$)",
+        "pix_key": "PIX Key",
+        "pix_placeholder": "Your PIX key (CPF, email, phone, etc.)",
+        "note": "Withdrawal requests are processed manually within 24-48 hours.",
+        "button": "Request Withdrawal",
+        "success": "Withdrawal request submitted!",
+        "error": "Please enter valid amount and PIX key",
+        "fail": "Withdrawal failed"
+      },
+      "inventory": {
+        "title": "Key Inventory",
+        "total_keys": "{qty} Total Keys",
+        "recent": "Recent Keys",
+        "no_keys": "No keys purchased yet.",
+        "copy": "Copy Key"
+    }
+  }
+}

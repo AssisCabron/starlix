@@ -3,8 +3,10 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, ShieldCheck, Zap } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function Hero() {
+  const { t } = useLanguage();
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
       {/* Background Elements */}
@@ -21,7 +23,7 @@ export function Hero() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
           </span>
-          Undetected & Working on Latest Build
+          {t("hero.status")}
         </motion.div>
 
         <motion.h1
@@ -30,10 +32,10 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-5xl md:text-7xl lg:text-9xl font-bold tracking-tighter mb-6"
         >
-          <span className="text-white">DOMINATE</span>
+          <span className="text-white">{t("hero.title_dominate")}</span>
           <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-red-500 to-primary text-glow">
-            THE SERVER
+            {t("hero.title_server")}
           </span>
         </motion.h1>
 
@@ -43,9 +45,9 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
         >
-          The ultimate Lua executor for FiveM. 
-          <span className="text-white font-semibold"> 100% External</span>, 
-          safe execution, and premium features designed for the serious player.
+          {t("hero.description").split(/\{bold_external\}|\{\/bold_external\}/).map((part: string, i: number) => 
+            i === 1 ? <span key={i} className="text-white font-semibold">{part}</span> : part
+          )}
         </motion.p>
 
         <motion.div
@@ -56,13 +58,13 @@ export function Hero() {
         >
           <a href="/login" className="w-full md:w-auto">
              <Button variant="neon" size="lg" className="w-full min-w-[200px] h-14 text-lg group">
-                Get Access Now
+                {t("hero.cta_access")}
                 <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
              </Button>
           </a>
           <a href="#features" className="w-full md:w-auto">
              <Button variant="outline" size="lg" className="w-full h-14 text-lg border-white/10 text-gray-300 hover:text-white hover:bg-white/5">
-                View Features
+                {t("hero.cta_features")}
              </Button>
           </a>
         </motion.div>
@@ -76,11 +78,11 @@ export function Hero() {
            {/* Simple Trusted badges */}
            <div className="flex flex-col items-center gap-2">
               <ShieldCheck className="w-8 h-8" />
-              <span className="text-xs uppercase tracking-wider">Secure</span>
+              <span className="text-xs uppercase tracking-wider">{t("hero.badge_secure")}</span>
            </div>
            <div className="flex flex-col items-center gap-2">
               <Zap className="w-8 h-8" />
-              <span className="text-xs uppercase tracking-wider">Fast Injection</span>
+              <span className="text-xs uppercase tracking-wider">{t("hero.badge_fast")}</span>
            </div>
         </motion.div>
       </div>

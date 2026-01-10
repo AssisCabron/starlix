@@ -7,60 +7,64 @@ import { Check, Rocket, Zap, Crown, Infinity } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
-const plans = [
-    {
-        id: 'daily',
-        title: 'Daily Access',
-        price: '9.90',
-        period: '/day',
-        description: 'Perfect for testing the waters.',
-        features: ['24 Hour Access', 'All Features Unlocked', 'Instant Delivery', 'Basic Support'],
-        icon: Zap,
-        color: 'text-blue-400',
-        bg: 'bg-blue-400/10',
-        border: 'border-blue-400/20'
-    },
-    {
-        id: 'monthly',
-        title: 'Monthly Plan',
-        price: '29.90',
-        period: '/month',
-        description: 'Most popular choice for regulars.',
-        features: ['30 Days Access', 'All Features Unlocked', 'Priority Updates', 'Standard Support'],
-        popular: true,
-        icon: Rocket,
-        color: 'text-primary',
-        bg: 'bg-primary/10',
-        border: 'border-primary/20'
-    },
-    {
-        id: 'yearly',
-        title: 'Yearly Pro',
-        price: '149.90',
-        period: '/year',
-        description: 'Best value for long-term users.',
-        features: ['365 Days Access', 'All Features Unlocked', 'Early Access to Betas', 'Priority Support'],
-        icon: Crown,
-        color: 'text-purple-400',
-        bg: 'bg-purple-400/10',
-        border: 'border-purple-400/20'
-    },
-    {
-        id: 'lifetime',
-        title: 'Lifetime Elite',
-        price: '299.90',
-        period: 'one-time',
-        description: 'Pay once, own it forever.',
-        features: ['Unlimited Access', 'All Future Updates', 'Exclusive Discord Role', 'VIP Support 24/7'],
-        icon: Infinity,
-        color: 'text-amber-400',
-        bg: 'bg-amber-400/10',
-        border: 'border-amber-400/20'
-    }
-];
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function PurchasePage() {
+    const { t } = useLanguage();
     const router = useRouter();
+
+    const plans = [
+        {
+            id: 'daily',
+            title: t("purchase.plans.daily.title"),
+            price: '9.90',
+            period: t("purchase.period.day"),
+            description: t("purchase.plans.daily.description"),
+            features: t("purchase.plans.daily.features") as string[],
+            icon: Zap,
+            color: 'text-blue-400',
+            bg: 'bg-blue-400/10',
+            border: 'border-blue-400/20'
+        },
+        {
+            id: 'monthly',
+            title: t("purchase.plans.monthly.title"),
+            price: '29.90',
+            period: t("purchase.period.month"),
+            description: t("purchase.plans.monthly.description"),
+            features: t("purchase.plans.monthly.features") as string[],
+            popular: true,
+            icon: Rocket,
+            color: 'text-primary',
+            bg: 'bg-primary/10',
+            border: 'border-primary/20'
+        },
+        {
+            id: 'yearly',
+            title: t("purchase.plans.yearly.title"),
+            price: '149.90',
+            period: t("purchase.period.year"),
+            description: t("purchase.plans.yearly.description"),
+            features: t("purchase.plans.yearly.features") as string[],
+            icon: Crown,
+            color: 'text-purple-400',
+            bg: 'bg-purple-400/10',
+            border: 'border-purple-400/20'
+        },
+        {
+            id: 'lifetime',
+            title: t("purchase.plans.lifetime.title"),
+            price: '299.90',
+            period: t("purchase.period.lifetime"),
+            description: t("purchase.plans.lifetime.description"),
+            features: t("purchase.plans.lifetime.features") as string[],
+            icon: Infinity,
+            color: 'text-amber-400',
+            bg: 'bg-amber-400/10',
+            border: 'border-amber-400/20'
+        }
+    ];
+
     const handlePurchase = (planId: string) => {
         router.push(`/checkout?plan=${planId}`);
     };
@@ -73,10 +77,10 @@ export default function PurchasePage() {
             <div className="container mx-auto px-4">
                 <div className="text-center max-w-3xl mx-auto mb-16">
                     <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                        Choose Your <span className="text-primary text-glow">Weapon</span>
+                        {t("purchase.title")} <span className="text-primary text-glow">{t("purchase.title_glow")}</span>
                     </h1>
                     <p className="text-xl text-gray-400">
-                        Select the plan that fits your playstyle. Instant delivery. Secure payments.
+                        {t("purchase.subtitle")}
                     </p>
                 </div>
 
@@ -88,7 +92,7 @@ export default function PurchasePage() {
                         >
                              {plan.popular && (
                                 <div className="absolute top-0 right-0 bg-primary text-white text-xs font-bold px-3 py-1 rounded-bl-lg">
-                                    MOST POPULAR
+                                    {t("purchase.popular")}
                                 </div>
                             )}
                             
@@ -104,7 +108,7 @@ export default function PurchasePage() {
                             <p className="text-sm text-gray-400 mb-6 min-h-[40px]">{plan.description}</p>
 
                             <ul className="space-y-3 mb-8">
-                                {plan.features.map((feature, i) => (
+                                {Array.isArray(plan.features) && plan.features.map((feature, i) => (
                                     <li key={i} className="flex items-center gap-2 text-sm text-gray-300">
                                         <Check className="w-4 h-4 text-primary" />
                                         {feature}
@@ -116,7 +120,7 @@ export default function PurchasePage() {
                                 className={`w-full font-bold ${plan.popular ? 'bg-primary hover:bg-primary/90' : 'bg-white/10 hover:bg-white/20'}`}
                                 onClick={() => handlePurchase(plan.id)}
                             >
-                                Buy Now
+                                {t("purchase.buy_now")}
                             </Button>
                             
                             {/* Hover cleaning effect */}

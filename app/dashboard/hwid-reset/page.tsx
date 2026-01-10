@@ -6,8 +6,10 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { RefreshCw, AlertTriangle, CheckCircle, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function HWIDResetPage() {
+  const { t } = useLanguage();
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +25,7 @@ export default function HWIDResetPage() {
     const token = tokenRow ? tokenRow.split('=')[1] : null;
 
     if (!token) {
-        setError("Not authenticated. Please login again.");
+        setError(t("hwid.errors.auth"));
         setIsLoading(false);
         return;
     }
@@ -51,11 +53,23 @@ export default function HWIDResetPage() {
     }
   };
 
+  const renderCooldown = (text: string) => {
+    const parts = text.split("{bold}");
+    if (parts.length < 2) return text;
+    return (
+      <>
+        {parts[0]}
+        <strong>{parts[1].split("{/bold}")[0]}</strong>
+        {parts[1].split("{/bold}")[1]}
+      </>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-background text-white pt-24 pb-12">
       <div className="container mx-auto px-4 max-w-2xl">
         <Link href="/dashboard">
-             <Button variant="ghost" className="mb-6">&larr; Back to Dashboard</Button>
+             <Button variant="ghost" className="mb-6">&larr; {t("dashboard.subscription.back")}</Button>
         </Link>
         
         <Card className="p-8 border-white/10 bg-black/60 backdrop-blur-xl">
@@ -64,10 +78,11 @@ export default function HWIDResetPage() {
                     <RefreshCw className={`w-12 h-12 text-primary ${isLoading ? 'animate-spin' : ''}`} />
                 </div>
                 
-                <h1 className="text-3xl font-bold text-white mb-4">Request HWID Reset</h1>
+                <h1 className="text-3xl font-bold text-white mb-4">{t("hwid.title")}</h1>
                 <p className="text-gray-400 mb-8 max-w-md">
-                    Changing your PC? You can reset your Hardware ID (HWID) binding here.
-                    Note that this action has a <strong>7-day cooldown</strong>.
+                    {t("hwid.subtitle")}
+                    <br />
+                    {renderCooldown(t("hwid.cooldown"))}
                 </p>
 
                 {error && (
@@ -85,20 +100,20 @@ export default function HWIDResetPage() {
                 )}
 
                 {!success && (
-                     <Button 
+                    <Button 
                         size="lg" 
                         variant="neon" 
                         onClick={handleReset} 
                         disabled={isLoading}
                         className="w-full max-w-xs"
-                     >
+                    >
                         {isLoading ? (
                             <>
                                 <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                                Processing...
+                                {t("hwid.processing")}
                             </>
                         ) : (
-                            "Reset HWID Now"
+                            t("hwid.button")
                         )}
                     </Button>
                 )}

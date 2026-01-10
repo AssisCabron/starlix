@@ -4,38 +4,42 @@ import { motion } from "framer-motion";
 import { Star, MessageSquareQuote } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
-const testimonials = [
-  {
-    name: "AlexRager",
-    role: "Verified Buyer",
-    content: "Best external I've ever used. The aimbot is so legit looking, admins spectated me for 30 mins and found nothing. 10/10.",
-    rating: 5,
-  },
-  {
-    name: "NightStalker",
-    role: "Lifetime User",
-    content: "Support is insane. Had an issue with my key and they fixed it in 2 minutes. The menu itself is smooth as butter.",
-    rating: 5,
-  },
-  {
-    name: "FiveGod",
-    role: "Month Sub",
-    content: "RedENGINE lookalike but feels even better optimized. FPS barely drops even with full ESP on. Starlix is the future.",
-    rating: 5,
-  },
-];
+import { useLanguage } from "@/context/LanguageContext";
 
 export function Testimonials() {
+  const { t } = useLanguage();
+
+  const testimonialList = [
+    {
+      name: "AlexRager",
+      role: t("testimonials.roles.buyer"),
+      content: t("testimonials.quotes.alex"),
+      rating: 5,
+    },
+    {
+      name: "NightStalker",
+      role: t("testimonials.roles.lifetime"),
+      content: t("testimonials.quotes.night"),
+      rating: 5,
+    },
+    {
+      name: "FiveGod",
+      role: t("testimonials.roles.subscriber"),
+      content: t("testimonials.quotes.fivegod"),
+      rating: 5,
+    },
+  ];
+
   return (
     <section id="reviews" className="py-24 relative z-10 bg-black/30">
         <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-                <span className="text-primary font-bold tracking-wider uppercase text-sm">Community Feedback</span>
-                <h2 className="text-3xl md:text-5xl font-bold mt-2">What They Say</h2>
+                <span className="text-primary font-bold tracking-wider uppercase text-sm">{t("testimonials.badge")}</span>
+                <h2 className="text-3xl md:text-5xl font-bold mt-2">{t("testimonials.title")}</h2>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {testimonials.map((t, idx) => (
+                {testimonialList.map((t, idx) => (
                     <motion.div
                         key={idx}
                         initial={{ opacity: 0, y: 20 }}

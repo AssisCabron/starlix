@@ -1,23 +1,32 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function LogoutButton() {
-  const router = useRouter();
+    const router = useRouter();
+    const { t } = useLanguage();
 
+    const handleLogout = () => {
+        // Clear all cookies
+        document.cookie.split(";").forEach((c) => {
+            document.cookie = c
+                .replace(/^ +/, "")
+                .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+        });
 
-  const handleLogout = () => {
-    document.cookie = 'access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-    window.dispatchEvent(new Event('auth-change'));
-    router.push("/login");
-    router.refresh();
-  };
+        // Notify Navbar
+        window.dispatchEvent(new Event('auth-change'));
+        
+        router.push("/login");
+        router.refresh(); // Clear server component cache
+    };
 
-  return (
-    <Button variant="ghost" onClick={handleLogout} className="text-red-500 hover:text-red-400 hover:bg-red-500/10 gap-2">
-      <LogOut className="w-4 h-4" /> Logout
-    </Button>
-  );
+    return (
+        <Button variant="ghost" className="gap-2 text-gray-400 hover:text-white" onClick={handleLogout}>
+            <LogOut className="w-4 h-4" /> {t("dashboard.logout")}
+        </Button>
+    );
 }

@@ -4,7 +4,10 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, Lock, User } from "lucide-react";
 
+import { useLanguage } from "@/context/LanguageContext";
+
 export function DashboardPreview() {
+  const { t } = useLanguage();
   return (
     <section id="dashboard" className="py-24 relative overflow-hidden">
       {/* Background Decor */}
@@ -15,20 +18,15 @@ export function DashboardPreview() {
           {/* Text Content */}
           <div className="lg:w-1/2">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Complete Control <br />
-              <span className="text-primary">Dashboard</span>
+              {t("preview.title")} <br />
+              <span className="text-primary">{t("preview.subtitle")}</span>
             </h2>
             <p className="text-gray-400 text-lg mb-8 leading-relaxed">
-              Manage your license, view your subscription status, and download the latest loader directly from our secure user panel. Everything you need, one click away.
+              {t("preview.description")}
             </p>
             
             <div className="space-y-4 mb-8">
-              {[
-                "Instant License Activation",
-                "Cloud-Based Config Management",
-                "Real-time Status Updates",
-                "24/7 Support Ticket System"
-              ].map((item, idx) => (
+              {(t("preview.points") as string[]).map((item, idx) => (
                 <div key={idx} className="flex items-center gap-3">
                   <CheckCircle2 className="w-5 h-5 text-green-500" />
                   <span className="text-gray-300">{item}</span>
@@ -38,7 +36,7 @@ export function DashboardPreview() {
 
             <a href="/login">
                 <Button variant="neon" size="lg">
-                Access Dashboard
+                {t("preview.cta")}
                 </Button>
             </a>
           </div>
@@ -72,23 +70,23 @@ export function DashboardPreview() {
                         <div className="text-white font-bold">User_Admin</div>
                         <div className="text-xs text-green-500 flex items-center gap-1">
                             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                            Online
+                            {t("preview.mockup.online")}
                         </div>
                      </div>
                   </div>
-                  <Button variant="outline" size="sm" className="h-8 text-xs">Logout</Button>
+                  <Button variant="outline" size="sm" className="h-8 text-xs">{t("preview.mockup.logout")}</Button>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 mb-8">
                     <div className="p-4 rounded-lg bg-black/40 border border-white/5">
-                        <div className="text-xs text-gray-500 mb-1">Status</div>
+                        <div className="text-xs text-gray-500 mb-1">{t("preview.mockup.status")}</div>
                         <div className="text-green-500 font-bold flex items-center gap-2">
-                             <CheckCircle2 className="w-4 h-4" /> Active
+                             <CheckCircle2 className="w-4 h-4" /> {t("preview.mockup.active")}
                         </div>
                     </div>
                     <div className="p-4 rounded-lg bg-black/40 border border-white/5">
-                        <div className="text-xs text-gray-500 mb-1">Subscription</div>
-                        <div className="text-primary font-bold">Lifetime</div>
+                        <div className="text-xs text-gray-500 mb-1">{t("preview.mockup.subscription")}</div>
+                        <div className="text-primary font-bold">{t("preview.mockup.lifetime")}</div>
                     </div>
                 </div>
 
@@ -96,9 +94,9 @@ export function DashboardPreview() {
                     <div className="flex justify-between items-center">
                         <div>
                             <div className="text-sm text-white font-medium mb-1">Starlix_Loader_v2.exe</div>
-                            <div className="text-xs text-gray-500">Last updated: 2 hours ago</div>
+                            <div className="text-xs text-gray-500">{t("preview.mockup.last_updated")}: 2 hours ago</div>
                         </div>
-                        <Button size="sm" variant="neon">Download</Button>
+                        <Button size="sm" variant="neon">{t("preview.mockup.download")}</Button>
                     </div>
                 </div>
               </div>

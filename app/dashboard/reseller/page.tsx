@@ -14,6 +14,7 @@ import {
     Copy,
     CheckCircle2
 } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface DashboardStats {
     balance: number;
@@ -34,9 +35,10 @@ interface WholesalePrices {
 }
 
 export default function ResellerDashboard() {
+    const { t } = useLanguage();
     const router = useRouter();
     
-    const [API_URL, setApiUrl] = useState("http://localhost:4000");
+    const [API_URL, setApiUrl] = useState("https://starlix-back.onrender.com");
 
     useEffect(() => {
         const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
@@ -100,7 +102,7 @@ export default function ResellerDashboard() {
 
             if (data.status === 'CONFIRMED' || data.status === 'RECEIVED') {
                 setPollingActive(false);
-                alert("Payment confirmed! Your inventory has been updated.");
+                alert(t("reseller.purchase.success").replace("{qty}", quantity.toString()).replace("{plan}", selectedPlan));
                 fetchDashboardData();
             }
         } catch (error) {
@@ -136,7 +138,6 @@ export default function ResellerDashboard() {
                 const keysData = await keysRes.json();
                 setAllKeys(keysData.keys || []);
             } else {
-                alert("Not authorized as reseller");
                 router.push('/dashboard');
             }
         } catch (error) {
@@ -148,13 +149,13 @@ export default function ResellerDashboard() {
 
     const handlePurchaseKeys = async () => {
         if (!paymentInfo.name || !paymentInfo.cpfCnpj || !paymentInfo.phone) {
-            alert("Please fill in all personal information fields.");
+            alert(t("reseller.purchase.error_info"));
             return;
         }
 
         if (billingType === 'CREDIT_CARD') {
             if (!cardInfo.number || !cardInfo.holderName || !cardInfo.expiryMonth || !cardInfo.expiryYear || !cardInfo.ccv) {
-                alert("Please fill in all credit card fields.");
+                alert(t("reseller.purchase.error_card"));
                 return;
             }
         }
@@ -188,14 +189,14 @@ export default function ResellerDashboard() {
                 if (data.status !== 'CONFIRMED') {
                     setPollingActive(true);
                 } else {
-                    alert(`Successfully purchased ${quantity} ${selectedPlan} keys!`);
+                    alert(t("reseller.purchase.success").replace("{qty}", quantity.toString()).replace("{plan}", selectedPlan));
                     fetchDashboardData();
                 }
             } else {
-                alert(data.error || "Purchase failed");
+                alert(data.error || t("reseller.purchase.error_failed"));
             }
         } catch (error) {
-            alert("Failed to purchase keys");
+            alert(t("reseller.purchase.error_failed"));
         } finally {
             setPurchaseLoading(false);
         }
@@ -207,7 +208,7 @@ export default function ResellerDashboard() {
 
         const amount = parseFloat(withdrawAmount);
         if (!amount || amount <= 0 || !pixKey) {
-            alert("Please enter valid amount and PIX key");
+            alert(t("reseller.withdraw.error"));
             return;
         }
 
@@ -226,14 +227,14 @@ export default function ResellerDashboard() {
             const data = await res.json();
 
             if (res.ok) {
-                alert("Withdrawal request submitted!");
+                alert(t("reseller.withdraw.success"));
                 setWithdrawAmount("");
                 setPixKey("");
             } else {
-                alert(data.error || "Withdrawal failed");
+                alert(data.error || t("reseller.withdraw.fail"));
             }
         } catch (error) {
-            alert("Failed to submit withdrawal");
+            alert(t("reseller.withdraw.fail"));
         }
     };
 
@@ -262,11 +263,11 @@ export default function ResellerDashboard() {
         <div className="min-h-screen bg-black text-white pt-24 pb-12">
             <div className="container mx-auto px-4 max-w-7xl">
                 <Link href="/dashboard">
-                    <Button variant="ghost" className="mb-6">← Back to Dashboard</Button>
+                    <Button variant="ghost" className="mb-6">← {t("dashboard.subscription.back")}</Button>
                 </Link>
 
-                <h1 className="text-4xl font-bold mb-2 text-primary">Reseller Dashboard</h1>
-                <p className="text-gray-400 mb-8">Manage your wholesale keys and earnings</p>
+                <h1 className="text-4xl font-bold mb-2 text-primary">{t("reseller.title")}</h1>
+                <p className="text-gray-400 mb-8">{t("reseller.subtitle")}</p>
 
                 {/* Stats Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -276,7 +277,7 @@ export default function ResellerDashboard() {
                                 <DollarSign className="w-6 h-6 text-green-500" />
                             </div>
                             <div>
-                                <p className="text-sm text-gray-400">Available Balance</p>
+                                <p className="text-sm text-gray-400">{t("reseller.stats.balance")}</p>
                                 <p className="text-2xl font-bold text-white">R$ {stats?.balance.toFixed(2)}</p>
                             </div>
                         </div>
@@ -288,7 +289,7 @@ export default function ResellerDashboard() {
                                 <TrendingUp className="w-6 h-6 text-blue-500" />
                             </div>
                             <div>
-                                <p className="text-sm text-gray-400">Total Sales</p>
+                                <p className="text-sm text-gray-400">{t("reseller.stats.sales")}</p>
                                 <p className="text-2xl font-bold text-white">R$ {stats?.totalSales.toFixed(2)}</p>
                             </div>
                         </div>
@@ -300,7 +301,7 @@ export default function ResellerDashboard() {
                                 <Package className="w-6 h-6 text-purple-500" />
                             </div>
                             <div>
-                                <p className="text-sm text-gray-400">Available Keys</p>
+                                <p className="text-sm text-gray-400">{t("reseller.stats.keys")}</p>
                                 <p className="text-2xl font-bold text-white">
                                     {Object.values(stats?.availableKeys || {}).reduce((a, b) => a + b, 0)}
                                 </p>
@@ -314,7 +315,7 @@ export default function ResellerDashboard() {
                     <Card className="p-6 bg-white/5 border-white/10">
                         <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
                             <ShoppingCart className="w-6 h-6 text-primary" />
-                            Purchase Wholesale Keys
+                            {t("reseller.purchase.title")}
                         </h2>
 
                         <div className="space-y-4 mb-6">
@@ -330,7 +331,7 @@ export default function ResellerDashboard() {
                                 >
                                     <div className="flex justify-between items-center">
                                         <div>
-                                            <p className="font-bold">{plan.name}</p>
+                                            <p className="font-bold">{t(`purchase.plans.${plan.name.toLowerCase()}.title`)}</p>
                                             <p className="text-sm text-gray-400">
                                                 Retail: R$ {plan.retail} • Margin: {plan.margin}
                                             </p>
@@ -343,7 +344,7 @@ export default function ResellerDashboard() {
 
                         <div className="space-y-6">
                             <div>
-                                <label className="text-sm text-gray-400 mb-2 block">Quantity</label>
+                                <label className="text-sm text-gray-400 mb-2 block">{t("reseller.purchase.quantity")}</label>
                                 <input
                                     type="number"
                                     min="1"
@@ -355,25 +356,25 @@ export default function ResellerDashboard() {
 
                             {/* Personal Info */}
                             <div className="space-y-4 pt-4 border-t border-white/10">
-                                <h3 className="text-lg font-bold">Personal Information</h3>
+                                <h3 className="text-lg font-bold">{t("reseller.purchase.personal_info")}</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <input
                                         type="text"
-                                        placeholder="Full Name"
+                                        placeholder={t("checkout.full_name")}
                                         value={paymentInfo.name}
                                         onChange={(e) => setPaymentInfo({...paymentInfo, name: e.target.value})}
                                         className="w-full bg-black/50 border border-white/20 rounded p-3"
                                     />
                                     <input
                                         type="text"
-                                        placeholder="CPF / CNPJ"
+                                        placeholder={t("checkout.cpf_cnpj")}
                                         value={paymentInfo.cpfCnpj}
                                         onChange={(e) => setPaymentInfo({...paymentInfo, cpfCnpj: e.target.value})}
                                         className="w-full bg-black/50 border border-white/20 rounded p-3"
                                     />
                                     <input
                                         type="text"
-                                        placeholder="Phone"
+                                        placeholder={t("checkout.phone")}
                                         value={paymentInfo.phone}
                                         onChange={(e) => setPaymentInfo({...paymentInfo, phone: e.target.value})}
                                         className="w-full bg-black/50 border border-white/20 rounded p-3"
@@ -383,7 +384,7 @@ export default function ResellerDashboard() {
 
                             {/* Payment Method */}
                             <div className="space-y-4 pt-4 border-t border-white/10">
-                                <h3 className="text-lg font-bold">Payment Method</h3>
+                                <h3 className="text-lg font-bold">{t("reseller.purchase.payment_method")}</h3>
                                 <div className="flex gap-4">
                                     <Button
                                         variant={billingType === 'PIX' ? 'neon' : 'outline'}
@@ -397,7 +398,7 @@ export default function ResellerDashboard() {
                                         onClick={() => setBillingType('CREDIT_CARD')}
                                         className="flex-1"
                                     >
-                                        Credit Card
+                                        {t("checkout.credit_card")}
                                     </Button>
                                 </div>
 
@@ -405,14 +406,14 @@ export default function ResellerDashboard() {
                                     <div className="space-y-4 pt-2">
                                         <input
                                             type="text"
-                                            placeholder="Card Number"
+                                            placeholder={t("checkout.card_number")}
                                             value={cardInfo.number}
                                             onChange={(e) => setCardInfo({...cardInfo, number: e.target.value})}
                                             className="w-full bg-black/50 border border-white/20 rounded p-3"
                                         />
                                         <input
                                             type="text"
-                                            placeholder="Holder Name"
+                                            placeholder={t("checkout.card_holder_name")}
                                             value={cardInfo.holderName}
                                             onChange={(e) => setCardInfo({...cardInfo, holderName: e.target.value})}
                                             className="w-full bg-black/50 border border-white/20 rounded p-3"
@@ -445,7 +446,7 @@ export default function ResellerDashboard() {
                             </div>
 
                             <div className="p-4 bg-primary/10 border border-primary/20 rounded-lg">
-                                <p className="text-sm text-gray-400">Total Cost</p>
+                                <p className="text-sm text-gray-400">{t("reseller.purchase.total")}</p>
                                 <p className="text-2xl font-bold text-primary">
                                     R$ {(planPrices.find(p => p.name === selectedPlan)?.price || 0) * quantity}
                                 </p>
@@ -456,9 +457,9 @@ export default function ResellerDashboard() {
                                     {orderResult.status === 'CONFIRMED' ? (
                                         <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg text-green-500">
                                             <h4 className="font-bold flex items-center gap-2">
-                                                <CheckCircle2 className="w-5 h-5" /> Payment Confirmed!
+                                                <CheckCircle2 className="w-5 h-5" /> {t("checkout.payment_confirmed")}
                                             </h4>
-                                            <p className="text-sm mt-2">Your keys have been generated and added to your inventory.</p>
+                                            <p className="text-sm mt-2">{t("checkout.redirecting")}</p>
                                             {orderResult.keys && (
                                                 <div className="mt-4 space-y-2">
                                                     <p className="text-xs text-gray-400">New Keys:</p>
@@ -478,12 +479,12 @@ export default function ResellerDashboard() {
                                         <div className="p-6 bg-white/5 border border-white/10 rounded-lg text-center">
                                             {orderResult.pix ? (
                                                 <div className="space-y-4">
-                                                    <h4 className="font-bold text-primary">Pay with PIX</h4>
+                                                    <h4 className="font-bold text-primary">{t("checkout.waiting_payment")}</h4>
                                                     <div className="bg-white p-4 rounded-lg inline-block">
                                                         <img src={`data:image/png;base64,${orderResult.pix.encodedImage}`} alt="PIX QR Code" className="w-48 h-48" />
                                                     </div>
                                                     <div className="space-y-2">
-                                                        <p className="text-xs text-gray-400">Copy PIX Payload:</p>
+                                                        <p className="text-xs text-gray-400">{t("checkout.copy_pix")}</p>
                                                         <div className="flex items-center gap-2 bg-black/40 p-3 rounded border border-white/10">
                                                             <code className="flex-1 text-[10px] break-all text-left">{orderResult.pix.payload}</code>
                                                             <button onClick={() => copyToClipboard(orderResult.pix.payload, 'pix')} className="text-primary p-2">
@@ -493,15 +494,15 @@ export default function ResellerDashboard() {
                                                     </div>
                                                     <div className="flex items-center justify-center gap-2 text-primary animate-pulse">
                                                         <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full"></div>
-                                                        <span className="text-sm font-bold">Waiting for payment...</span>
+                                                        <span className="text-sm font-bold">{t("checkout.waiting_payment")}</span>
                                                     </div>
                                                 </div>
                                             ) : (
                                                 <div className="space-y-4">
-                                                    <h4 className="font-bold text-yellow-500">Processing Payment...</h4>
+                                                    <h4 className="font-bold text-yellow-500">{t("reseller.purchase.processing")}</h4>
                                                     <div className="flex items-center justify-center gap-2 text-primary animate-pulse">
                                                         <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full"></div>
-                                                        <span className="text-sm font-bold">Checking status...</span>
+                                                        <span className="text-sm font-bold">{t("reseller.purchase.processing")}</span>
                                                     </div>
                                                 </div>
                                             )}
@@ -515,7 +516,7 @@ export default function ResellerDashboard() {
                                     disabled={purchaseLoading}
                                     className="w-full py-6 text-lg font-bold"
                                 >
-                                    {purchaseLoading ? 'Processing...' : 'Purchase Keys'}
+                                    {purchaseLoading ? t("reseller.purchase.processing") : t("reseller.purchase.button")}
                                 </Button>
                             )}
                         </div>
@@ -526,12 +527,12 @@ export default function ResellerDashboard() {
                     <Card className="p-6 bg-white/5 border-white/10">
                         <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
                             <Download className="w-6 h-6 text-green-500" />
-                            Withdraw Balance
+                            {t("reseller.withdraw.title")}
                         </h2>
 
                         <div className="space-y-4">
                             <div>
-                                <label className="text-sm text-gray-400 mb-2 block">Amount (R$)</label>
+                                <label className="text-sm text-gray-400 mb-2 block">{t("reseller.withdraw.amount")}</label>
                                 <input
                                     type="number"
                                     step="0.01"
@@ -543,18 +544,18 @@ export default function ResellerDashboard() {
                             </div>
 
                             <div>
-                                <label className="text-sm text-gray-400 mb-2 block">PIX Key</label>
+                                <label className="text-sm text-gray-400 mb-2 block">{t("reseller.withdraw.pix_key")}</label>
                                 <input
                                     type="text"
                                     value={pixKey}
                                     onChange={(e) => setPixKey(e.target.value)}
                                     className="w-full bg-black/50 border border-white/20 rounded p-3"
-                                    placeholder="Your PIX key (CPF, email, phone, etc.)"
+                                    placeholder={t("reseller.withdraw.pix_placeholder")}
                                 />
                             </div>
 
                             <div className="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg text-yellow-500 text-sm">
-                                Withdrawal requests are processed manually within 24-48 hours.
+                                {t("reseller.withdraw.note")}
                             </div>
 
                             <Button
@@ -562,34 +563,34 @@ export default function ResellerDashboard() {
                                 variant="outline"
                                 className="w-full py-6 text-lg font-bold border-green-500 text-green-500 hover:bg-green-500/10"
                             >
-                                Request Withdrawal
+                                {t("reseller.withdraw.button")}
                             </Button>
                         </div>
 
                         {/* Key Inventory */}
                         <div className="mt-8 pt-8 border-t border-white/10">
                             <h3 className="font-bold mb-4 flex justify-between items-center">
-                                <span>Key Inventory</span>
+                                <span>{t("reseller.inventory.title")}</span>
                                 <span className="text-xs text-gray-400 font-normal">
-                                    {allKeys.length} Total Keys
+                                    {t("reseller.inventory.total_keys").replace("{qty}", allKeys.length.toString())}
                                 </span>
                             </h3>
                             
                             <div className="grid grid-cols-2 gap-4 mb-6">
                                 {Object.entries(stats?.availableKeys || {}).map(([plan, count]) => (
                                     <div key={plan} className="p-3 bg-black/40 rounded-lg border border-white/5">
-                                        <p className="text-xs text-gray-400">{plan}</p>
+                                        <p className="text-xs text-gray-400">{t(`purchase.plans.${plan.toLowerCase()}.title`)}</p>
                                         <p className="text-xl font-bold">{count}</p>
                                     </div>
                                 ))}
                             </div>
 
                             <div className="space-y-3">
-                                <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider">Recent Keys</h4>
+                                <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider">{t("reseller.inventory.recent")}</h4>
                                 <div className="max-h-[400px] overflow-y-auto space-y-2 pr-2 custom-scrollbar">
                                     {allKeys.length === 0 ? (
                                         <div className="text-center py-8 text-gray-500 border border-dashed border-white/10 rounded-lg">
-                                            No keys purchased yet.
+                                            {t("reseller.inventory.no_keys")}
                                         </div>
                                     ) : (
                                         allKeys.map((keyData) => (
@@ -610,7 +611,7 @@ export default function ResellerDashboard() {
                                                             keyData.plan_type === 'Yearly' ? 'bg-purple-500/20 text-purple-400' :
                                                             'bg-yellow-500/20 text-yellow-400'
                                                         }`}>
-                                                            {keyData.plan_type}
+                                                            {t(`purchase.plans.${keyData.plan_type.toLowerCase()}.title`)}
                                                         </span>
                                                     </div>
                                                     <div className="flex items-center gap-3 mt-1">
@@ -622,7 +623,7 @@ export default function ResellerDashboard() {
                                                             <span className="text-[10px] text-gray-400 uppercase font-semibold">{keyData.status}</span>
                                                         </div>
                                                         <span className="text-[10px] text-gray-500 border-l border-white/10 pl-3">
-                                                            {new Date(keyData.created_at).toLocaleString('pt-BR', {
+                                                            {new Date(keyData.created_at).toLocaleString(t("lang") === "pt" ? "pt-BR" : "en-US", {
                                                                 day: '2-digit',
                                                                 month: '2-digit',
                                                                 year: '2-digit',
@@ -635,7 +636,7 @@ export default function ResellerDashboard() {
                                                 <button 
                                                     onClick={() => copyToClipboard(keyData.license_key, keyData.id)}
                                                     className="p-2 hover:bg-white/10 rounded-md text-primary transition-colors"
-                                                    title="Copy Key"
+                                                    title={t("reseller.inventory.copy")}
                                                 >
                                                     {copied === keyData.id ? <CheckCircle2 className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                                                 </button>

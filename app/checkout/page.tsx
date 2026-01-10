@@ -5,16 +5,19 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { CreditCard, QrCode, Lock, ShieldCheck, Copy, CheckCircle2, RotateCw } from "lucide-react";
-
-// Plans data
-const PLANS: Record<string, { title: string; price: number }> = {
-    daily: { title: 'Daily Access', price: 9.90 },
-    monthly: { title: 'Monthly Plan', price: 29.90 },
-    yearly: { title: 'Yearly Pro', price: 149.90 },
-    lifetime: { title: 'Lifetime Elite', price: 299.90 }
-};
+import { useLanguage } from "@/context/LanguageContext";
 
 function CheckoutForm() {
+    const { t } = useLanguage();
+    
+    // Plans data - Localized version
+    const PLANS: Record<string, { title: string; price: number }> = {
+        daily: { title: t("purchase.plans.daily.title"), price: 9.90 },
+        monthly: { title: t("purchase.plans.monthly.title"), price: 29.90 },
+        yearly: { title: t("purchase.plans.yearly.title"), price: 149.90 },
+        lifetime: { title: t("purchase.plans.lifetime.title"), price: 299.90 }
+    };
+
     const searchParams = useSearchParams();
     const router = useRouter();
     const planId = searchParams.get('plan') || 'daily';
@@ -84,12 +87,12 @@ function CheckoutForm() {
     const handleCheckout = async () => {
         // Basic Validation
         if (!formData.name || !formData.cpfCnpj || !formData.phone) {
-            alert("Please fill in all personal details.");
+            alert(t("checkout.errors.personal_required"));
             return;
         }
         if (billingType === 'CREDIT_CARD') {
             if (!formData.ccName || !formData.ccNumber || !formData.ccExpiry || !formData.ccCvv) {
-                alert("Please fill in all credit card details.");
+                alert(t("checkout.errors.card_required"));
                 return;
             }
         }
@@ -105,7 +108,6 @@ function CheckoutForm() {
         try {
             const accessToken = token.split('=')[1];
             
-            // Determine API URL
             // Determine API URL
             const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
             const API_URL = isLocal ? 'http://localhost:4000' : 'https://starlix-back.onrender.com';
@@ -161,16 +163,16 @@ function CheckoutForm() {
                         setPaymentStatus('PENDING');
                     } else {
                         // If no PIX data, something is wrong with backend or Asaas communication
-                        alert("Could not generate PIX QR Code. Please try again or contact support.");
+                        alert(t("checkout.errors.pix_failed"));
                         console.error("Missing PIX data in response:", data);
                     }
                 }
             } else {
-                alert("Checkout Error: " + (data.error || "Unknown error"));
+                alert(t("checkout.errors.checkout_failed") + (data.error || "Unknown error"));
             }
         } catch (error) {
            console.error("Checkout Request Error:", error);
-           alert("Failed to process payment.");
+           alert(t("checkout.errors.general_failed"));
         } finally {
             setLoading(false);
         }
@@ -179,7 +181,7 @@ function CheckoutForm() {
     return (
         <div className="container mx-auto px-4 max-w-4xl">
             <h1 className="text-3xl font-bold mb-8 flex items-center gap-3">
-                <ShieldCheck className="text-primary" /> Secure Checkout
+                <ShieldCheck className="text-primary" /> {t("checkout.title")}
             </h1>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -189,18 +191,18 @@ function CheckoutForm() {
                     
                     {/* Personal Info */}
                     <div className="bg-white/5 border border-white/10 p-6 rounded-xl">
-                        <h2 className="text-xl font-bold mb-4">1. Personal Information</h2>
+                        <h2 className="text-xl font-bold mb-4">{t("checkout.personal.title")}</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label className="text-xs text-gray-400 mb-1 block">Full Name</label>
+                                <label className="text-xs text-gray-400 mb-1 block">{t("checkout.personal.name")}</label>
                                 <input name="name" onChange={handleInputChange} className="w-full bg-black/50 border border-white/20 rounded p-2 text-sm" placeholder="John Doe" />
                             </div>
                             <div>
-                                <label className="text-xs text-gray-400 mb-1 block">CPF / CNPJ</label>
+                                <label className="text-xs text-gray-400 mb-1 block">{t("checkout.personal.cpf")}</label>
                                 <input name="cpfCnpj" onChange={handleInputChange} className="w-full bg-black/50 border border-white/20 rounded p-2 text-sm" placeholder="000.000.000-00" />
                             </div>
                             <div className="md:col-span-2">
-                                <label className="text-xs text-gray-400 mb-1 block">Mobile Phone</label>
+                                <label className="text-xs text-gray-400 mb-1 block">{t("checkout.personal.phone")}</label>
                                 <input name="phone" onChange={handleInputChange} className="w-full bg-black/50 border border-white/20 rounded p-2 text-sm" placeholder="(11) 99999-9999" />
                             </div>
                         </div>
@@ -208,7 +210,7 @@ function CheckoutForm() {
 
                     {/* Payment Method */}
                     <div className="bg-white/5 border border-white/10 p-6 rounded-xl">
-                        <h2 className="text-xl font-bold mb-6">2. Payment Method</h2>
+                        <h2 className="text-xl font-bold mb-6">{t("checkout.payment.title")}</h2>
                         
                         <div className="flex gap-4 mb-6">
                             <button 
@@ -216,34 +218,34 @@ function CheckoutForm() {
                                 className={`flex-1 p-4 rounded-lg border flex flex-col items-center gap-2 transition-all ${billingType === 'PIX' ? 'bg-primary/20 border-primary text-primary' : 'bg-black/40 border-white/10 text-gray-400 hover:bg-white/5'}`}
                             >
                                 <QrCode className="w-6 h-6" />
-                                <span className="font-bold">PIX</span>
+                                <span className="font-bold">{t("checkout.payment.pix")}</span>
                             </button>
                             <button 
                                 onClick={() => setBillingType('CREDIT_CARD')}
                                 className={`flex-1 p-4 rounded-lg border flex flex-col items-center gap-2 transition-all ${billingType === 'CREDIT_CARD' ? 'bg-primary/20 border-primary text-primary' : 'bg-black/40 border-white/10 text-gray-400 hover:bg-white/5'}`}
                             >
                                 <CreditCard className="w-6 h-6" />
-                                <span className="font-bold">Credit Card</span>
+                                <span className="font-bold">{t("checkout.payment.card")}</span>
                             </button>
                         </div>
 
                         {billingType === 'CREDIT_CARD' && (
                             <div className="space-y-4 animate-in fade-in slide-in-from-top-4">
                                 <div>
-                                    <label className="text-xs text-gray-400 mb-1 block">Cardholder Name</label>
-                                    <input name="ccName" onChange={handleInputChange} className="w-full bg-black/50 border border-white/20 rounded p-2 text-sm" placeholder="Name as printed on card" />
+                                    <label className="text-xs text-gray-400 mb-1 block">{t("checkout.payment.card_name")}</label>
+                                    <input name="ccName" onChange={handleInputChange} className="w-full bg-black/50 border border-white/20 rounded p-2 text-sm" placeholder={t("checkout.payment.card_name_placeholder")} />
                                 </div>
                                 <div>
-                                    <label className="text-xs text-gray-400 mb-1 block">Card Number</label>
+                                    <label className="text-xs text-gray-400 mb-1 block">{t("checkout.payment.card_number")}</label>
                                     <input name="ccNumber" onChange={handleInputChange} className="w-full bg-black/50 border border-white/20 rounded p-2 text-sm" placeholder="0000 0000 0000 0000" />
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="text-xs text-gray-400 mb-1 block">Expiry</label>
+                                        <label className="text-xs text-gray-400 mb-1 block">{t("checkout.payment.expiry")}</label>
                                         <input name="ccExpiry" onChange={handleInputChange} className="w-full bg-black/50 border border-white/20 rounded p-2 text-sm" placeholder="MM/YY" />
                                     </div>
                                     <div>
-                                        <label className="text-xs text-gray-400 mb-1 block">CVV</label>
+                                        <label className="text-xs text-gray-400 mb-1 block">{t("checkout.payment.cvv")}</label>
                                         <input name="ccCvv" onChange={handleInputChange} className="w-full bg-black/50 border border-white/20 rounded p-2 text-sm" placeholder="123" />
                                     </div>
                                 </div>
@@ -252,7 +254,7 @@ function CheckoutForm() {
 
                         {billingType === 'PIX' && (
                             <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg text-center text-green-400 text-sm">
-                                Approved instantly. You will receive a QR Code after clicking Pay Now.
+                                {t("checkout.payment.pix_note")}
                             </div>
                         )}
                     </div>
@@ -262,19 +264,19 @@ function CheckoutForm() {
                 {/* RIGHT: ORDER SUMMARY */}
                 <div>
                     <div className="bg-white/5 border border-white/10 p-6 rounded-xl sticky top-24">
-                        <h3 className="text-xl font-bold mb-4">Order Summary</h3>
+                        <h3 className="text-xl font-bold mb-4">{t("checkout.summary.title")}</h3>
                         <div className="flex justify-between items-center mb-4 pb-4 border-b border-white/10">
                             <span>{selectedPlan.title}</span>
                             <span className="font-bold">R$ {selectedPlan.price.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between items-center text-xl font-bold mb-8">
-                            <span>Total</span>
+                            <span>{t("checkout.summary.total")}</span>
                             <span className="text-primary">R$ {selectedPlan.price.toFixed(2)}</span>
                         </div>
                         
                         {!pixData ? (
                             <Button className="w-full py-6 text-lg font-bold shadow-[0_0_20px_rgba(255,0,60,0.3)] hover:shadow-[0_0_30px_rgba(255,0,60,0.6)] transition-all" onClick={handleCheckout} disabled={loading}>
-                                {loading ? 'Processing...' : `Pay R$ ${selectedPlan.price.toFixed(2)}`}
+                                {loading ? t("checkout.summary.processing") : `${t("checkout.summary.button")} R$ ${selectedPlan.price.toFixed(2)}`}
                             </Button>
                         ) : (
                             <div className="space-y-4 animate-in fade-in zoom-in-95 duration-300">
@@ -282,8 +284,8 @@ function CheckoutForm() {
                                     <div className="flex flex-col items-center gap-4 p-6 bg-green-500/20 border border-green-500/50 rounded-xl">
                                         <CheckCircle2 className="w-16 h-16 text-green-500 animate-bounce" />
                                         <div className="text-center">
-                                            <h4 className="font-bold text-lg">Payment Confirmed!</h4>
-                                            <p className="text-sm text-gray-400">Redirecting to dashboard...</p>
+                                            <h4 className="font-bold text-lg">{t("checkout.pix.confirmed")}</h4>
+                                            <p className="text-sm text-gray-400">{t("checkout.pix.redirecting")}</p>
                                         </div>
                                     </div>
                                 ) : (
@@ -292,7 +294,7 @@ function CheckoutForm() {
                                             <img src={`data:image/png;base64,${pixData.encodedImage}`} alt="PIX QR Code" className="w-48 h-48" />
                                         </div>
                                         <div className="space-y-2">
-                                            <p className="text-xs text-center text-gray-400">Copy and paste the code below:</p>
+                                            <p className="text-xs text-center text-gray-400">{t("checkout.pix.copy")}</p>
                                             <div className="flex gap-2">
                                                 <input 
                                                     readOnly 
@@ -307,7 +309,7 @@ function CheckoutForm() {
                                         <div className="flex flex-col items-center gap-2 pt-2">
                                             <div className="flex items-center gap-2 text-xs text-primary animate-pulse">
                                                 <RotateCw className="w-3 h-3 animate-spin" />
-                                                Waiting for payment...
+                                                {t("checkout.pix.waiting")}
                                             </div>
                                         </div>
                                     </>
@@ -316,7 +318,7 @@ function CheckoutForm() {
                         )}
 
                         <div className="mt-6 flex items-center justify-center gap-2 text-xs text-gray-500">
-                            <Lock className="w-3 h-3" /> Encrypted & Secure
+                            <Lock className="w-3 h-3" /> {t("checkout.summary.secure")}
                         </div>
                     </div>
                 </div>

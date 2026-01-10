@@ -4,53 +4,57 @@ import { motion } from "framer-motion";
 import { Shield, Zap, Crosshair, Ghost, Terminal, Settings } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
-const features = [
-  {
-    title: "100% External",
-    description: "Operates completely outside the game process. Zero injection risks.",
-    icon: Shield,
-  },
-  {
-    title: "Silent Aim",
-    description: "Advanced humantized aimbot with adjustable FOV and smoothing.",
-    icon: Crosshair,
-  },
-  {
-    title: "ESP High-Performance",
-    description: "See players, vehicles, and items through walls with zero FPS drop.",
-    icon: Ghost,
-  },
-  {
-    title: "Lua Execution",
-    description: "Load and run any Lua script instantly. Full compatibility.",
-    icon: Terminal,
-  },
-  {
-    title: "Instant Update",
-    description: "Cloud-based updates ensure you are always protected.",
-    icon: Zap,
-  },
-  {
-    title: "Configurable",
-    description: "Save and load multiple config profiles for different servers.",
-    icon: Settings,
-  },
-];
+import { useLanguage } from "@/context/LanguageContext";
 
 export function Features() {
+  const { t } = useLanguage();
+
+  const featuresList = [
+    {
+      title: t("features.items.external.title"),
+      description: t("features.items.external.description"),
+      icon: Shield,
+    },
+    {
+      title: t("features.items.aimbot.title"),
+      description: t("features.items.aimbot.description"),
+      icon: Crosshair,
+    },
+    {
+      title: t("features.items.esp.title"),
+      description: t("features.items.esp.description"),
+      icon: Ghost,
+    },
+    {
+      title: t("features.items.lua.title"),
+      description: t("features.items.lua.description"),
+      icon: Terminal,
+    },
+    {
+      title: t("features.items.update.title"),
+      description: t("features.items.update.description"),
+      icon: Zap,
+    },
+    {
+      title: t("features.items.config.title"),
+      description: t("features.items.config.description"),
+      icon: Settings,
+    },
+  ];
+
   return (
     <section id="features" className="py-24 relative z-10">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <span className="text-primary font-bold tracking-wider uppercase text-sm">Designed to Dominate</span>
-          <h2 className="text-4xl md:text-5xl font-bold mt-2 mb-6">Unrivaled Settings</h2>
+          <span className="text-primary font-bold tracking-wider uppercase text-sm">{t("features.badge")}</span>
+          <h2 className="text-4xl md:text-5xl font-bold mt-2 mb-6">{t("features.title")}</h2>
           <p className="text-gray-400 max-w-2xl mx-auto">
-            Packed with industry-leading features that put you in control.
+            {t("features.subtitle")}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature, idx) => (
+          {featuresList.map((feature, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, scale: 0.95 }}

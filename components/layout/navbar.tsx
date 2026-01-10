@@ -7,7 +7,10 @@ import { Menu, X, Rocket } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
+import { useLanguage } from "@/context/LanguageContext";
+
 export function Navbar() {
+  const { t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -37,9 +40,9 @@ export function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: "Features", href: "#features" },
-    { name: "Reviews", href: "#reviews" },
-    { name: "Pricing", href: "/purchase" },
+    { name: t("nav.features"), href: "#features" },
+    { name: t("nav.reviews"), href: "#reviews" },
+    { name: t("nav.pricing"), href: "/purchase" },
   ];
 
   return (
@@ -79,19 +82,19 @@ export function Navbar() {
           {isLoggedIn ? (
              <Link href="/dashboard">
                 <Button variant="neon" size="sm">
-                    My Dashboard
+                    {t("nav.dashboard")}
                 </Button>
              </Link>
           ) : (
             <>
               <Link href="/login">
                 <Button variant="ghost" className="text-gray-300 hover:text-white">
-                    Login
+                    {t("nav.login")}
                 </Button>
               </Link>
               <Link href="/login?view=signup">
                 <Button variant="neon" size="sm" className="hidden lg:flex">
-                    Get Access
+                    {t("nav.get_access")}
                 </Button>
               </Link>
             </>
@@ -131,19 +134,19 @@ export function Navbar() {
                 {isLoggedIn ? (
                      <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)}>
                         <Button variant="neon" className="w-full">
-                        My Dashboard
+                        {t("nav.dashboard")}
                         </Button>
                      </Link>
                 ) : (
                     <>
                         <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
                             <Button variant="ghost" className="w-full justify-start">
-                            Login
+                            {t("nav.login")}
                             </Button>
                         </Link>
                         <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
                             <Button variant="neon" className="w-full">
-                            Get Access Now
+                            {t("nav.get_access")}
                             </Button>
                         </Link>
                     </>
