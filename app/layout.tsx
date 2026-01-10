@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   title: "Starlix Menu | The Ultimate FiveM Executor",
   description: "Undetected, External, and Powerful. Enhance your FiveM experience with Starlix Menu.",
   keywords: ["FiveM", "Cheat", "Mod Menu", "External", "Lua Executor", "Starlix"],
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({
