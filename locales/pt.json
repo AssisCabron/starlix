@@ -50,9 +50,9 @@
             "title": "ESP de Alta Performance",
             "description": "Veja jogadores, veículos e itens através de paredes com zero queda de FPS."
         },
-        "": {
-            "title": "Execução ",
-            "description": "Carregue e execute qualquer script  instantaneamente. Compatibilidade total."
+        "lua": {
+            "title": "Execução Lua",
+            "description": "Carregue e execute qualquer script Lua instantaneamente. Compatibilidade total."
         },
         "update": {
             "title": "Atualização Instantânea",
@@ -146,6 +146,7 @@
         "none": "Sem Licença"
     },
     "loader": {
+        "title": "Baixar Loader",
         "description": "Sempre use a versão mais recente do loader para garantir o status de não detectado. Desative o antivírus antes de baixar.",
         "updated": "Atualizado",
         "version": "Versão"
@@ -351,6 +352,7 @@
         "recent": "Chaves Recentes",
         "no_keys": "Nenhuma chave comprada ainda.",
         "copy": "Copiar Chave"
+      }
     }
   }
 }
