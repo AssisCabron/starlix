@@ -44,8 +44,11 @@ export async function getUserProfile() {
 import { redirect } from "next/navigation";
 
 export async function downloadLoader(formData: FormData) {
-    // Mock secure download link generation
-    redirect("https://starlix.net/download/loader_v2.exe");
+    const API_URL = process.env.NODE_ENV === 'development' 
+      ? 'http://localhost:4000' 
+      : 'https://starlix-back.onrender.com';
+      
+    redirect(`${API_URL}/api/download/loader`);
 }
 
 export async function getBillingHistory() {
