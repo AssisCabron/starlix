@@ -313,46 +313,46 @@
           "description": "Make sure your game is in \"Borderless Windowed\" mode. Fullscreen exclusive mode can sometimes block the overlay."
         }
       }
+    }
+  },
+  "reseller": {
+    "title": "Reseller Dashboard",
+    "subtitle": "Manage your wholesale keys and earnings",
+    "stats": {
+      "balance": "Available Balance",
+      "sales": "Total Sales",
+      "keys": "Available Keys"
     },
-    "reseller": {
-      "title": "Reseller Dashboard",
-      "subtitle": "Manage your wholesale keys and earnings",
-      "stats": {
-        "balance": "Available Balance",
-        "sales": "Total Sales",
-        "keys": "Available Keys"
-      },
-      "purchase": {
-        "title": "Purchase Wholesale Keys",
-        "quantity": "Quantity",
-        "personal_info": "Personal Information",
-        "payment_method": "Payment Method",
-        "total": "Total Cost",
-        "button": "Purchase Keys",
-        "processing": "Processing...",
-        "success": "Successfully purchased {qty} {plan} keys!",
-        "error_info": "Please fill in all personal information fields.",
-        "error_card": "Please fill in all credit card fields.",
-        "error_failed": "Purchase failed"
-      },
-      "withdraw": {
-        "title": "Withdraw Balance",
-        "amount": "Amount (R$)",
-        "pix_key": "PIX Key",
-        "pix_placeholder": "Your PIX key (CPF, email, phone, etc.)",
-        "note": "Withdrawal requests are processed manually within 24-48 hours.",
-        "button": "Request Withdrawal",
-        "success": "Withdrawal request submitted!",
-        "error": "Please enter valid amount and PIX key",
-        "fail": "Withdrawal failed"
-      },
-      "inventory": {
-        "title": "Key Inventory",
-        "total_keys": "{qty} Total Keys",
-        "recent": "Recent Keys",
-        "no_keys": "No keys purchased yet.",
-        "copy": "Copy Key"
-      }
+    "purchase": {
+      "title": "Purchase Wholesale Keys",
+      "quantity": "Quantity",
+      "personal_info": "Personal Information",
+      "payment_method": "Payment Method",
+      "total": "Total Cost",
+      "button": "Purchase Keys",
+      "processing": "Processing...",
+      "success": "Successfully purchased {qty} {plan} keys!",
+      "error_info": "Please fill in all personal information fields.",
+      "error_card": "Please fill in all credit card fields.",
+      "error_failed": "Purchase failed"
+    },
+    "withdraw": {
+      "title": "Withdraw Balance",
+      "amount": "Amount (R$)",
+      "pix_key": "PIX Key",
+      "pix_placeholder": "Your PIX key (CPF, email, phone, etc.)",
+      "note": "Withdrawal requests are processed manually within 24-48 hours.",
+      "button": "Request Withdrawal",
+      "success": "Withdrawal request submitted!",
+      "error": "Please enter valid amount and PIX key",
+      "fail": "Withdrawal failed"
+    },
+    "inventory": {
+      "title": "Key Inventory",
+      "total_keys": "{qty} Total Keys",
+      "recent": "Recent Keys",
+      "no_keys": "No keys purchased yet.",
+      "copy": "Copy Key"
     }
   }
 }

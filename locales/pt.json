@@ -313,46 +313,46 @@
           "description": "Certifique-se de que seu jogo está no modo \"Janela Sem Bordas\". O modo tela cheia exclusivo às vezes pode bloquear a sobreposição."
         }
       }
+    }
+  },
+  "reseller": {
+    "title": "Painel de Revendedor",
+    "subtitle": "Gerencie suas chaves de atacado e ganhos",
+    "stats": {
+      "balance": "Saldo Disponível",
+      "sales": "Vendas Totais",
+      "keys": "Chaves Disponíveis"
     },
-    "reseller": {
-      "title": "Painel de Revendedor",
-      "subtitle": "Gerencie suas chaves de atacado e ganhos",
-      "stats": {
-        "balance": "Saldo Disponível",
-        "sales": "Vendas Totais",
-        "keys": "Chaves Disponíveis"
-      },
-      "purchase": {
-        "title": "Comprar Chaves de Atacado",
-        "quantity": "Quantidade",
-        "personal_info": "Informações Pessoais",
-        "payment_method": "Método de Pagamento",
-        "total": "Custo Total",
-        "button": "Comprar Chaves",
-        "processing": "Processando...",
-        "success": "Comprado com sucesso {qty} chaves {plan}!",
-        "error_info": "Por favor, preencha todos os campos de informações pessoais.",
-        "error_card": "Por favor, preencha todos os campos do cartão de crédito.",
-        "error_failed": "Falha na compra"
-      },
-      "withdraw": {
-        "title": "Sacar Saldo",
-        "amount": "Valor (R$)",
-        "pix_key": "Chave PIX",
-        "pix_placeholder": "Sua chave PIX (CPF, e-mail, telefone, etc.)",
-        "note": "Os pedidos de saque são processados manualmente dentro de 24-48 horas.",
-        "button": "Solicitar Saque",
-        "success": "Pedido de saque enviado!",
-        "error": "Por favor, insira um valor válido e uma chave PIX",
-        "fail": "Falha no saque"
-      },
-      "inventory": {
-        "title": "Estoque de Chaves",
-        "total_keys": "{qty} Chaves no Total",
-        "recent": "Chaves Recentes",
-        "no_keys": "Nenhuma chave comprada ainda.",
-        "copy": "Copiar Chave"
-      }
+    "purchase": {
+      "title": "Comprar Chaves de Atacado",
+      "quantity": "Quantidade",
+      "personal_info": "Informações Pessoais",
+      "payment_method": "Método de Pagamento",
+      "total": "Custo Total",
+      "button": "Comprar Chaves",
+      "processing": "Processando...",
+      "success": "Comprado com sucesso {qty} chaves {plan}!",
+      "error_info": "Por favor, preencha todos os campos de informações pessoais.",
+      "error_card": "Por favor, preencha todos os campos do cartão de crédito.",
+      "error_failed": "Falha na compra"
+    },
+    "withdraw": {
+      "title": "Sacar Saldo",
+      "amount": "Valor (R$)",
+      "pix_key": "Chave PIX",
+      "pix_placeholder": "Sua chave PIX (CPF, e-mail, telefone, etc.)",
+      "note": "Os pedidos de saque são processados manualmente dentro de 24-48 horas.",
+      "button": "Solicitar Saque",
+      "success": "Pedido de saque enviado!",
+      "error": "Por favor, insira um valor válido e uma chave PIX",
+      "fail": "Falha no saque"
+    },
+    "inventory": {
+      "title": "Estoque de Chaves",
+      "total_keys": "{qty} Chaves no Total",
+      "recent": "Chaves Recentes",
+      "no_keys": "Nenhuma chave comprada ainda.",
+      "copy": "Copiar Chave"
     }
   }
 }
